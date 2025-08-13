@@ -2,15 +2,9 @@ stages:
   - build
   - deploy
 
-default:
-  image: node:22.18.0-alpine
-
-cache:
-  key:
-    files:
-      - package-lock.json
-  paths:
-    - .npm/
+variables:
+  API_TOKEN: $AZURE_DEPLOYMENT_TOKEN
+  OUTPUT_LOCATION: "dist/bpmn-runner-doc-page/"
 
 build_job:
   stage: build
@@ -25,14 +19,16 @@ build_job:
       - dist/bpmn-runner-doc-page/
     expire_in: 1 hour
  
-deploy_static_web_app:
+deploy:_job:
   stage: deploy
   image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
-  dependencies:
-    - build_job
   variables:
-    API_TOKEN: $AZURE_STATIC_WEB_APPS_API_TOKEN
-    APP_PATH: '$CI_PROJECT_DIR/src'
-    OUTPUT_PATH: '$CI_PROJECT_DIR/dist/angular-basic'
+    AZURE_STATIC_WEB_APPS_API_TOKEN: $API_TOKEN
+    APP_LOCATION: "/"
+    OUTPUT_LOCATION: $OUTPUT_LOCATION
   script:
-    - echo "App deployed successfully."
+    - /bin/entrypoint.sh
+  dependencies:
+    - build
+  only:
+    - main
