@@ -34,6 +34,6 @@ deploy_static_web_app:
     - apk add --no-cache libc6-compat
     - echo "Iniciando o deploy para o Azure Static Web App..."
     - npm install -g @azure/static-web-apps-cli
-    - swa deploy ./dist/bpmn-runner-doc-page/ --deployment-token $AZURE_STATIC_WEB_APPS_API_TOKEN
+    - swa deploy ./dist/nome-do-seu-projeto/ --deployment-token $AZURE_STATIC_WEB_APPS_API_TOKEN --branch $CI_COMMIT_BRANCH
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "main"
