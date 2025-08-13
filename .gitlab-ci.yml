@@ -19,7 +19,7 @@ build_job:
       - dist/bpmn-runner-doc-page/
     expire_in: 1 hour
  
-deploy:_job:
+deploy_job:
   stage: deploy
   image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
   variables:
