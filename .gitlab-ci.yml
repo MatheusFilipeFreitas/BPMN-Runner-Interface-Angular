@@ -10,7 +10,7 @@ build_job:
   stage: build
   image: node:22.18-alpine
   script:
-    - npm ci
+    - npm install
     - npm run build --prod
   artifacts:
     paths:
