@@ -1,24 +1,37 @@
-stages:          # List of stages for jobs, and their order of execution
+stages:
   - build
-  - test
   - deploy
 
-build-job:       # This job runs in the build stage, which runs first.
+default:
+  image: node:22.18.0-alpine
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+
+build_job:
   stage: build
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
-
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
+    - echo "Iniciando instalação das dependências..."
+    - npm config set cache .npm --global
+    - npm install
+    - echo "Iniciando o build da aplicação para produção..."
+    - npm run build -- --configuration production
+  artifacts:
+    paths:
+      - dist/bpmn-runner-doc-page/
+    expire_in: 1 hour
+deploy_static_web_app:
+  stage: deploy
+  image: node:20-alpine
+  dependencies:
+    - build_job
   script:
-    - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
-    - echo "No lint issues found."
-
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - echo "Iniciando o deploy para o Azure Static Web App..."
+    - npm install -g @azure/static-web-apps-cli
+    - swa deploy ./dist/bpmn-runner-doc-page/ --deployment-token $AZURE_STATIC_WEB_APPS_API_TOKEN
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
