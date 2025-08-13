@@ -26,14 +26,14 @@ build_job:
     expire_in: 1 hour
 deploy_static_web_app:
   stage: deploy
-  image: node:20-alpine
+  image: node:22.18.0-alpine
   dependencies:
     - build_job
   script:
     - echo "Instalando camada de compatibilidade para Alpine..."
     - apk add --no-cache libc6-compat
     - echo "Iniciando o deploy para o Azure Static Web App..."
-    - npm install -g @azure/static-web-apps-cli
+    - npm install -g @azure/static-web-apps-cli@latest
     - swa deploy ./dist/nome-do-seu-projeto/ --deployment-token $AZURE_STATIC_WEB_APPS_API_TOKEN --branch $CI_COMMIT_BRANCH
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
