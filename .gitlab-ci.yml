@@ -27,14 +27,9 @@ deploy_job:
     APP_LOCATION: "/"
     OUTPUT_LOCATION: "dist/bpmn-runner-doc-page/"
   script:
-deploy_job:
-  stage: deploy
-  image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
-  dependencies:
-    - build_job
-  script:
-    - /bin/entrypoint.sh --app "/" --outputLocation "dist/bpmn-runner-doc-page/" --apiToken "$API_TOKEN"
-  only:
-    - main
+    - export API_TOKEN="$AZURE_DEPLOYMENT_TOKEN"
+    - export APP_PATH="$APP_LOCATION"
+    - export OUTPUT_PATH="$OUTPUT_LOCATION"
+    - /bin/entrypoint.sh
   only:
     - main
