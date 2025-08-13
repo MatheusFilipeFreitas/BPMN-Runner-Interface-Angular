@@ -37,6 +37,9 @@ deploy_static_web_app:
     - apk add --no-cache libc6-compat
     - echo "Iniciando o deploy para o Azure Static Web App..."
     - npm install -g @azure/static-web-apps-cli@latest
+    - echo "Listing the contents of the build artifact directory..."
+    - ls -R ./dist/bpmn-runner-doc-page/
+    - echo "Deploying to PRODUCTION environment..."
     - swa deploy ./dist/bpmn-runner-doc-page/ --env production
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
