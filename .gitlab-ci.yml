@@ -6,18 +6,16 @@ variables:
   API_TOKEN: $AZURE_DEPLOYMENT_TOKEN
   OUTPUT_LOCATION: "dist/bpmn-runner-doc-page/"
 
-build_job:
+build_app:
   stage: build
+  image: node:22.18-alpine
   script:
-    - echo "Iniciando instalação das dependências..."
-    - npm config set cache .npm --global
-    - npm install
-    - echo "Iniciando o build da aplicação para produção..."
-    - npm run build -- --configuration production
+    - npm ci
+    - npm run build --prod
   artifacts:
     paths:
-      - dist/bpmn-runner-doc-page/
-    expire_in: 1 hour
+      - dist/
+    expire_in: 1h
  
 deploy_job:
   stage: deploy
