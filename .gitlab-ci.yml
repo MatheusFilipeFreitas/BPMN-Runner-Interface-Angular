@@ -6,7 +6,7 @@ variables:
   API_TOKEN: $AZURE_DEPLOYMENT_TOKEN
   OUTPUT_LOCATION: "dist/bpmn-runner-doc-page/"
 
-build_app:
+build_job:
   stage: build
   image: node:22.18-alpine
   script:
