@@ -1,52 +1,127 @@
-📊 BPMN Runner - Angular v20
+# 🟢 BPMN Runner Doc Page
 
-Bem-vindo ao BPMN Runner, uma aplicação interativa desenvolvida com Angular v20 para visualização e execução de diagramas BPMN (Business Process Model and Notation). Explore e interaja com os processos de negócios diretamente no navegador.
+![Angular](https://img.shields.io/badge/Angular-v20-red)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-🔗 Acesse a [Demo Aqui](https://ambitious-island-060dfc40f.1.azurestaticapps.net/)
+## 🌐 Demo
 
-🚀 Funcionalidades
+Acesse a versão online do projeto: [Demo do Projeto](https://ambitious-island-060dfc40f.1.azurestaticapps.net/)
 
-Visualização de Diagramas BPMN: Carregue e visualize diagramas BPMN em tempo real.
+## 📖 Descrição
 
-Execução Interativa: Interaja com os elementos do diagrama para simular o fluxo do processo.
+Este projeto é uma aplicação Angular v20 que tem como objetivo **\[descrever o objetivo do projeto]**.
+Ele inclui **\[listar funcionalidades principais]**, e foi desenvolvido com foco em **\[ex.: aprendizado, produtividade, demonstração de UI/UX, etc.]**.
 
-🛠️ Tecnologias Utilizadas
+---
 
-Frontend: Angular v20
+## 🛠 Tecnologias Utilizadas
 
-Bibliotecas:
+* **Angular v20**
+* **TypeScript**
+* **Node.js v20+**
+* **CSS / SCSS**
 
-BPMN.js para renderização de diagramas BPMN.
+---
 
-Angular Material para componentes de interface.
+## 💻 Pré-requisitos
 
-Ferramentas de Desenvolvimento:
+Antes de iniciar, você precisa ter instalado:
 
-Angular CLI para gerenciamento do projeto.
+* Node.js >= 20.0.0
+* npm >= 9.0.0
+* Angular CLI (opcional, mas recomendado)
 
-Vitest para testes unitários (suporte experimental).
+Verifique a versão do Node.js:
 
-📦 Instalação e Execução
-
-Clone este repositório:
-
+```bash
+node -v
 ```
-git clone https://github.com/seu-usuario/bpmn-runner.git
-cd bpmn-runner
+
+Verifique a versão do npm:
+
+```bash
+npm -v
 ```
 
-Instale as dependências:
+---
+
+## ⚡ Instalação
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/seu-usuario/nome-do-projeto.git
 ```
+
+2. Acesse a pasta do projeto:
+
+```bash
+cd nome-do-projeto
+```
+
+3. Instale as dependências:
+
+```bash
 npm install
 ```
 
-Inicie o servidor de desenvolvimento:
+---
+
+## 🚀 Execução
+
+Para rodar a aplicação em ambiente de desenvolvimento:
+
+```bash
+ng serve
 ```
-npm start
+
+Acesse `http://localhost:4200` no seu navegador.
+
+Para gerar o build de produção:
+
+```bash
+ng build --prod
 ```
 
-Acesse a aplicação em http://localhost:4200.
+---
 
-📄 Licença
+## 🗂 Estrutura do Projeto
 
-Este projeto está licenciado sob a [MIT License](https://gitlab.com/aluno-ufn/bpmn-runner-doc-page/-/blob/main/LICENSE?ref_type=heads).
+```
+nome-do-projeto/
+│
+├─ src/
+│  ├─ app/
+│  │  ├─ components/      # Componentes reutilizáveis
+│  │  ├─ pages/           # Páginas da aplicação
+│  │  ├─ services/        # Serviços e integração com API
+│  │  ├─ app.module.ts
+│  │  └─ app.component.ts
+│  ├─ assets/             # Imagens, fontes, etc.
+│  └─ styles/             # CSS/SCSS global
+│
+├─ angular.json
+├─ package.json
+└─ README.md
+```
+
+---
+
+## 📝 Funcionalidades
+
+* Funcionalidade 1: **\[descrição]**
+* Funcionalidade 2: **\[descrição]**
+* Funcionalidade 3: **\[descrição]**
+
+---
+
+## 🔗 Referências
+
+* [Documentação Angular](https://angular.io/docs)
+* [Node.js](https://nodejs.org/)
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
