@@ -26,6 +26,14 @@ deploy_job:
     API_TOKEN: $AZURE_DEPLOYMENT_TOKEN
     APP_PATH: "$CI_PROJECT_DIR"
     OUTPUT_PATH: $OUTPUT_LOCATION
+  before_script:
+    - apt-get update && apt-get install -y curl tar
+    - curl -fsSL https://nodejs.org/dist/v22.18.0/node-v22.18.0-linux-x64.tar.xz -o node.tar.xz
+    - tar -xf node.tar.xz
+    - mv node-v22.18.0-linux-x64 /usr/local/node
+    - export PATH=/usr/local/node/bin:$PATH
+    - node -v 
+    - npm -v
   script:
     - echo "App deployed successfully."
   only:
