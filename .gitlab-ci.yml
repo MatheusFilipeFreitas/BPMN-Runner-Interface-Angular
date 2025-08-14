@@ -4,7 +4,7 @@ stages:
 
 variables:
   API_TOKEN: $AZURE_DEPLOYMENT_TOKEN
-  OUTPUT_LOCATION: "dist/bpmn-runner-doc-page/"
+  OUTPUT_LOCATION: "$CI_PROJECT_DIR/dist/bpmn-runner-doc-page/"
 
 build_job:
   stage: build
@@ -12,23 +12,21 @@ build_job:
   script:
     - npm install
     - npm run build --prod
-    - echo "Project directory is $CI_PROJECT_DIR"
-    - ls $CI_PROJECT_DIR/frontend
   artifacts:
     paths:
       - dist/
     expire_in: 1h
  
-# deploy_job:
-#   stage: deploy
-#   image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
-#   dependencies:
-#     - build_job
-#   variables:
-#     API_TOKEN: $AZURE_DEPLOYMENT_TOKEN
-#     APP_PATH: "/"
-#     OUTPUT_PATH: $OUTPUT_LOCATION
-#   script:
-#     - echo "App deployed successfully."
-#   only:
-#     - main
+deploy_job:
+  stage: deploy
+  image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
+  dependencies:
+    - build_job
+  variables:
+    API_TOKEN: $AZURE_DEPLOYMENT_TOKEN
+    APP_PATH: "$CI_PROJECT_DIR"
+    OUTPUT_PATH: $OUTPUT_LOCATION
+  script:
+    - echo "App deployed successfully."
+  only:
+    - main
