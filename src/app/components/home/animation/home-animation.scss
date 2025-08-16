@@ -9,13 +9,19 @@
  */
 $transition: 200ms linear;
 
+@font-face {
+  font-family: "Inter Tight";
+  src: url("/assets/fonts/InterTight-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :host {
   display: block;
   position: relative;
   font-family: "Inter Tight", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
 
   .animation {
     position: fixed;
