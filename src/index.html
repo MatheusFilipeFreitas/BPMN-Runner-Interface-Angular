@@ -1,13 +1,48 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="docs-dark-mode docs-light-mode">
 <head>
   <meta charset="utf-8">
+    <script>
+    const THEME_PREFERENCE_LOCAL_STORAGE_KEY = 'themePreference';
+    const DARK_MODE_CLASS_NAME = 'docs-dark-mode';
+    const LIGHT_MODE_CLASS_NAME = 'docs-light-mode';
+    const PREFERS_COLOR_SCHEME_DARK = '(prefers-color-scheme: dark)';
+
+
+    const theme = localStorage.getItem(THEME_PREFERENCE_LOCAL_STORAGE_KEY) ?? 'auto';
+    const prefersDark =
+      window.matchMedia && window.matchMedia(PREFERS_COLOR_SCHEME_DARK).matches;
+    const documentClassList = this.document.documentElement.classList;
+
+    // clearing classes before setting them.
+    this.document.documentElement.className = '';
+    if (theme === 'dark' || (theme === 'auto' && prefersDark)) {
+      documentClassList.add(DARK_MODE_CLASS_NAME);
+    } else {
+      documentClassList.add(LIGHT_MODE_CLASS_NAME);
+    }
+
+    if(location.search.includes('uwu')) {
+      documentClassList.add('uwu');
+    }
+  </script>
+  <style>
+    .uwu-logo {
+      display: none;
+    }
+    html.uwu .angular-logo {
+      display: none;
+    }
+    html.uwu .uwu-logo {
+      display: block !important;
+    }
+  </style>
   <title>BpmnRunnerDocPage</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body>
+<body class="mat-typography docs-scroll-track-transparent-large">
   <app-root></app-root>
 </body>
 </html>

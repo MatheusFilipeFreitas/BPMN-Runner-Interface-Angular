@@ -1,0 +1,89 @@
+<div class="animation" [class.reduced-motion]="reducedMotion()">
+  @if (!isUwu()) {
+    <div adevAnimationLayer layerId="logo" class="logo-layer layer">
+      <svg class="svg" viewBox="0 0 1280 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient
+          id="gradient"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="rotate(0 640 125)"
+        >
+          <stop offset="0" stop-color="#ed0100" />
+          <stop offset="0.25" stop-color="#e449b4" />
+          <stop offset="0.5" stop-color="#ae3bfc" />
+          <stop offset="1" stop-color="#7f15fd" />
+          <animateTransform
+            attributeName="gradientTransform"
+            type="rotate"
+            from="0 640 125"
+            to="360 640 125"
+            dur="6.5s"
+            repeatCount="indefinite"
+          />
+        </linearGradient>
+      </defs>
+      <text
+        x="50%"
+        y="50%"
+        dominant-baseline="middle"
+        text-anchor="middle"
+        fill="url(#gradient)"
+        font-size="100"
+        letter-spacing="0.2px"
+        font-family="Arial, sans-serif"
+        font-weight="bold"
+      >
+        BPMN Runner
+      </text>
+    </svg>
+    </div>
+  } @else {
+    <!-- UwU logo -->
+    <div adevAnimationLayer layerId="uwu" class="uwu-layer layer">
+      <img src="assets/images/uwu.png" alt="Angular logo" />
+    </div>
+  }
+
+  <!-- Works at any scale -->
+  <div adevAnimationLayer layerId="works-at-any-scale" class="works-at-any-scale-layer layer">
+    <h2>Works at any scale</h2>
+    <p>
+      Angular lets you start small on a well-lit path and supports you as your team and apps grow.
+    </p>
+  </div>
+
+  <!-- Meteor field -->
+  @if (meteorFieldData(); as meteorFieldData) {
+    <div adevAnimationLayer layerId="meteor-field" class="meteor-field-layer layer">
+      <div
+        class="field"
+        [style.width]="meteorFieldData.width + 'px'"
+        [style.height]="meteorFieldData.height + 'px'"
+        [style.marginLeft]="meteorFieldData.marginLeft + 'px'"
+        [style.marginTop]="meteorFieldData.marginTop + 'px'"
+      >
+        @for (type of meteors(); track $index) {
+          <div [class]="['meteor', 'type-' + type, 'mt-' + ($index + 1)]"></div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Loved by millions -->
+  <div adevAnimationLayer layerId="loved-by-millions" class="loved-by-millions-layer layer">
+    <h2>Loved by millions</h2>
+    <p>
+      Join the millions of developers all over the world building with Angular in a thriving and
+      friendly community.
+    </p>
+  </div>
+
+  <!-- Build for everyone -->
+  <div adevAnimationLayer layerId="build-for-everyone" class="build-for-everyone-layer layer">
+    <h2 class="title">Build for everyone</h2>
+    <p>
+      Rely on Angular's built-in hydration, internationalization, security, and accessibility
+      support to build for everyone around the world.
+    </p>
+  </div>
+</div>
