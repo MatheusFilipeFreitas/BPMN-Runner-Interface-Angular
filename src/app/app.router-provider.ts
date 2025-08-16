@@ -14,7 +14,6 @@ export const routerProviders = [
     withRouterConfig({canceledNavigationResolution: 'computed'}),
     withNavigationErrorHandler(({error}) => {
       if (error instanceof HttpErrorResponse) {
-        console.error('Handler called');
         return new RedirectCommand(inject(Router).parseUrl('/404'));
       }
       return void 0;
@@ -88,7 +87,6 @@ const initializeNavigationAdapter = () => {
       e instanceof NavigationCancel ||
       e instanceof NavigationError
     ) {
-      console.log('Cleared navigation');
       clearNavigation?.();
     }
   });
