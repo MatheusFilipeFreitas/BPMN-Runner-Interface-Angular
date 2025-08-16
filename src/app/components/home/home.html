@@ -1,4 +1,4 @@
-<app-home-animation [isUwu]="isUwu" (ready)="onAnimationReady($event)" />
+<app-home-animation (ready)="onAnimationReady($event)" />
 
 @if (!animationReady()) {
   <div class="spacer"></div>

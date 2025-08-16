@@ -1,10 +1,11 @@
-import { afterNextRender, Component, DestroyRef, ElementRef, inject, Injector, input, output, signal, viewChildren } from "@angular/core";
+import { afterNextRender, Component, computed, DestroyRef, ElementRef, inject, Injector, input, output, signal, viewChildren } from "@angular/core";
 import { shouldReduceMotion } from "./utils/animation.utils";
 import { RouterLink } from "@angular/router";
 import { ANIM_TIMESTEP, generateHomeAnimationDefinition } from "./utils/animation.definition";
 import { AnimationScrollHandler } from "./types/animation.handler";
 import { AnimationCreatorService } from "./services/animation.service";
 import { AnimationLayerDirective } from "./directives/animation.directive";
+import { WINDOW } from "../../../utils/window";
 
 export const METEOR_HW_RATIO = 1.42;
 export const METEOR_GAP_RATIO = 1.33;
@@ -34,7 +35,7 @@ type MeteorFieldData = {
 
 @Component({
   selector: 'app-home-animation',
-  imports: [],
+  imports: [AnimationLayerDirective],
   templateUrl: './home-animation.html',
   styleUrls: ['./home-animation.scss']
 })
@@ -43,14 +44,22 @@ export default class HomeAnimationComponent {
   private readonly elementRef = inject(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly animCreator = inject(AnimationCreatorService);
+  private readonly window = inject(WINDOW);
 
   readonly animationLayers = viewChildren(AnimationLayerDirective);
 
-  readonly isUwu = input.required<boolean>();
   readonly ready = output<boolean>();
   readonly reducedMotion = signal<boolean>(shouldReduceMotion());
   readonly meteorFieldData = signal<MeteorFieldData | null>(null);
   readonly meteors = signal<number[]>([]);
+
+  constructor() {
+    if (!this.reducedMotion()) {
+      this.initAnimation();
+    } else {
+      this.ready.emit(true);
+    }
+  }
 
   private initAnimation() {
     const meteorDimensions = this.calculateMeteorDimensions();
@@ -64,7 +73,7 @@ export default class HomeAnimationComponent {
       read: () => {
         const animation = this.animCreator
           .createAnimation(this.animationLayers(), {timestep: ANIM_TIMESTEP})
-          .define(generateHomeAnimationDefinition(this.isUwu(), this.meteors().length))
+          .define(generateHomeAnimationDefinition(false, this.meteors().length))
           .addPlugin(new AnimationScrollHandler(this.elementRef, this.injector));
 
         this.ready.emit(true);
@@ -77,7 +86,7 @@ export default class HomeAnimationComponent {
     let width = METEOR_WIDTH_DEFAULT;
 
     for (const [screenSize, meteorWidth] of METEOR_WIDTH_MAP) {
-      if (window.innerWidth <= screenSize) {
+      if (this.window.innerWidth <= screenSize) {
         width = meteorWidth;
       }
     }
@@ -103,10 +112,10 @@ export default class HomeAnimationComponent {
     let rows = 1;
     let cols = 1;
 
-    while (cols * mW - meteorDim.gap <= window.innerWidth) {
+    while (cols * mW - meteorDim.gap <= this.window.innerWidth) {
       cols++;
     }
-    while (rows * mH - meteorDim.gap <= window.innerHeight) {
+    while (rows * mH - meteorDim.gap <= this.window.innerHeight) {
       rows++;
     }
 
@@ -117,8 +126,8 @@ export default class HomeAnimationComponent {
       count: rows * cols,
       width,
       height,
-      marginLeft: -(width - window.innerWidth) / 2,
-      marginTop: -(height - window.innerHeight) / 2,
+      marginLeft: -(width - this.window.innerWidth) / 2,
+      marginTop: -(height - this.window.innerHeight) / 2,
     };
   }
 

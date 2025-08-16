@@ -28,10 +28,6 @@ export const ANIM_TIMESTEP = 10; // In milliseconds
  * SELECTORS
  */
 
-const BANNERS_LAYER_ID = 'banners';
-const ADEV_BANNER = `${BANNERS_LAYER_ID} >> .adev-banner`;
-const LEARN_ANGULAR_BTN = `${BANNERS_LAYER_ID} >> .learn-angular`;
-
 const LOGO_LAYER_ID = 'logo';
 const LOGO = `${LOGO_LAYER_ID} >> .logo`;
 const SHIELD = `${LOGO_LAYER_ID} >> .shield`;
@@ -139,35 +135,7 @@ export function generateHomeAnimationDefinition(
 ): AnimationDefinition {
   // Banners and buttons layer
   // *************************
-  const bannersLayerAnim: AnimationDefinition = [
-    {
-      selector: ADEV_BANNER,
-      timeframe: timeframe(2, 3),
-      from: {
-        transform: 'translateY(0)',
-      },
-      to: {
-        transform: 'translateY(-200px)',
-      },
-    },
-    {
-      selector: LEARN_ANGULAR_BTN,
-      timeframe: timeframe(2.5, 3.5),
-      from: {
-        opacity: '1',
-      },
-      to: {
-        opacity: '0',
-      },
-    },
-    {
-      selector: LEARN_ANGULAR_BTN,
-      at: at(4),
-      styles: {
-        visibility: 'hidden',
-      },
-    },
-  ];
+  const bannersLayerAnim: AnimationDefinition = [];
 
   // Logo layer animation
   // ********************

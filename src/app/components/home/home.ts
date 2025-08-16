@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, DOCUMENT, inject, Renderer2, signal } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import HomeAnimationComponent from "./animation/home-animation";
+import { WINDOW } from "../../utils/window";
 
 @Component({
   selector: 'app-home',
@@ -19,10 +20,11 @@ export default class HomeComponent {
 
   private scrollProgress = signal<number>(0);
   public animationReady = signal<boolean>(false);
+  private readonly window = inject(WINDOW);
 
   constructor() {
-    const scrollListenerCleanupFn = this.renderer.listen(window, 'scroll', () =>
-      this.scrollProgress.set(window.scrollY / this.doc.body.scrollHeight),
+    const scrollListenerCleanupFn = this.renderer.listen(this.window, 'scroll', () =>
+      this.scrollProgress.set(this.window.scrollY / this.doc.body.scrollHeight),
     );
     this.destroyRef.onDestroy(() => scrollListenerCleanupFn());
   }

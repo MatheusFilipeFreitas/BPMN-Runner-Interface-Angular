@@ -1,11 +1,3 @@
-/*!
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.dev/license
- */
-
 import {Injector, Renderer2, RendererFactory2, signal} from '@angular/core';
 import { AnimationLayerDirective } from '../directives/animation.directive';
 import { AnimationConfig } from './animation.config';
@@ -68,8 +60,10 @@ export class Animation {
     this.renderer = injector.get(RendererFactory2).createRenderer(null, null);
     this.config = {...DEFAULT_CONFIG, ...(config || {})};
 
-    // Set layer elements in the objects map.
-    this.allObjects = new Map(layers.map((f) => [f.id(), f.elementRef.nativeElement]));
+    this.allObjects = new Map(layers.map((f) => {
+      const result = [f.id(), f.elementRef.nativeElement];
+      return result as any;
+    }));
   }
 
   /** Animation duration. In milliseconds */

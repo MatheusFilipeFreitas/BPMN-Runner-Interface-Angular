@@ -1,12 +1,16 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
+import { routerProviders } from './app.router-provider';
+import { WINDOW, windowProvider } from './utils/window';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    routerProviders,
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes)
+    {
+      provide: WINDOW,
+      useFactory: windowProvider
+    }
   ]
 };
