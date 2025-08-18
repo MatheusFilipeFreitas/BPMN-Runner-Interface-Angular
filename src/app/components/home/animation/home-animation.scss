@@ -125,7 +125,7 @@ $transition: 200ms linear;
         }
       }
 
-      .learn-angular {
+      .learn-bpmn-runner {
         position: absolute;
         left: 50%;
         bottom: 5%;
@@ -344,6 +344,43 @@ $transition: 200ms linear;
       .build-for-everyone-layer > .title {
         background-position-x: 0;
       }
+    }
+  }
+}
+
+.docs-primary-btn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  position: relative;
+  border-radius: .25rem;
+  padding: .75rem 1.5rem;
+  width: max-content;
+  color: transparent;
+  --angle: 90deg;
+  background: linear-gradient(var(--angle), var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100%);
+  &::before {
+    content: attr(text);
+    position: absolute;
+    inset: 1px;
+    background: var(--page-background);
+    border-radius: .2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .3s ease, background .3s ease;
+    color: var(--primary-contrast);
+  }
+
+  &:hover {
+    animation: spin-gradient 4s linear infinite forwards;
+    &::before {
+      background-color: var(--page-background);
+      background: var(--soft-pink-radial-gradient);
+      opacity: 0.9;
+    }
+    &::after {
+      opacity: 0;
     }
   }
 }

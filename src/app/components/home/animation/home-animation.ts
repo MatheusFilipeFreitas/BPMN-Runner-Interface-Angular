@@ -35,7 +35,7 @@ type MeteorFieldData = {
 
 @Component({
   selector: 'app-home-animation',
-  imports: [AnimationLayerDirective],
+  imports: [AnimationLayerDirective, RouterLink],
   templateUrl: './home-animation.html',
   styleUrls: ['./home-animation.scss']
 })

@@ -1,4 +1,14 @@
 <div class="animation" [class.reduced-motion]="reducedMotion()">
+  <div appAnimationLayer layerId="banners" class="banners-layer layer">
+    <div class="learn-bpmn-runner">
+      <a routerLink="/" class="adev-cta">
+        <button class="docs-primary-btn" [attr.text]="'Learn BPMN Runner'" aria-label="Learn BPMN Runner">
+          Learn BPMN Runner
+        </button>
+      </a>
+      <div class="adev-arrow"></div>
+    </div>
+  </div>
   <div appAnimationLayer layerId="logo" class="logo-layer layer">
     <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 1280 400">
       <defs>

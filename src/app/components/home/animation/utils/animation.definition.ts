@@ -17,6 +17,10 @@ const timeframe = (from: number, to: number): [number, number] => [
 
 /** Layer selectors */
 const LAYERS = {
+  banners: {
+    base: 'banners',
+    learnBPMNRunner: 'banners >> .learn-bpmn-runner'
+  },
   logo: {
     base: 'logo',
     shield: 'logo >> .shield',
@@ -97,6 +101,7 @@ export function generateHomeAnimationDefinition(meteorCount: number): AnimationR
     .map(id => showMeteor(LAYERS.meteorField.id(id), lastWaveStart));
 
   return [
+    ...generateBannerAnimantions(),
     ...generateLogoAnimations(),
     ...generateShieldAnimations(),
     ...generateWorksAtAnyScaleAnimations(),
@@ -139,7 +144,21 @@ export function generateHomeAnimationDefinition(meteorCount: number): AnimationR
   ];
 }
 
-/** Individual animation generators */
+function generateBannerAnimantions(): AnimationRule<Styles>[] {
+  return [
+    {
+      selector: LAYERS.banners.learnBPMNRunner,
+      timeframe: timeframe(2.5, 3.5),
+      from: {
+        opacity: '1',
+      },
+      to: {
+        opacity: '0',
+      },
+    }
+  ]
+}
+
 function generateLogoAnimations(): AnimationRule<Styles>[] {
   const letters = LAYERS.logo.letters;
   const sequence = [
