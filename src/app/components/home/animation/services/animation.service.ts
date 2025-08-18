@@ -26,7 +26,6 @@ export class AnimationCreatorService {
     layers: readonly AnimationLayerDirective[],
     config?: Partial<AnimationConfig>,
   ): Animation {
-    console.log(layers);
     return new Animation(layers, this.injector, config);
   }
 }

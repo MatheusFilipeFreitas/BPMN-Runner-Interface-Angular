@@ -32,15 +32,26 @@ const LOGO_LAYER_ID = 'logo';
 const LOGO = `${LOGO_LAYER_ID} >> .logo`;
 const SHIELD = `${LOGO_LAYER_ID} >> .shield`;
 const SHIELD_MIDDLE = `${LOGO_LAYER_ID} >> .shield-middle`;
-const SHIELD_BOTTOM_A_ARC = `${LOGO_LAYER_ID} >> .shield-bottom-a-arc`;
-const SHIELD_BOTTOM_EXTENSION = `${LOGO_LAYER_ID} >> .shield-bottom-extension`;
-const CAPITAL_A_LETTER = `${LOGO_LAYER_ID} >> .capt-a-letter`;
-const N_LETTER = `${LOGO_LAYER_ID} >> .n-letter`;
-const G_LETTER = `${LOGO_LAYER_ID} >> .g-letter`;
+// const SHIELD_BOTTOM_A_ARC = `${LOGO_LAYER_ID} >> .shield-bottom-a-arc`;
+// const SHIELD_BOTTOM_EXTENSION = `${LOGO_LAYER_ID} >> .shield-bottom-extension`;
+// const CAPITAL_A_LETTER = `${LOGO_LAYER_ID} >> .capt-a-letter`;
+// const N_LETTER = `${LOGO_LAYER_ID} >> .n-letter`;
+// const G_LETTER = `${LOGO_LAYER_ID} >> .g-letter`;
+// const U_LETTER = `${LOGO_LAYER_ID} >> .u-letter`;
+// const L_LETTER = `${LOGO_LAYER_ID} >> .l-letter`;
+// const A_LETTER = `${LOGO_LAYER_ID} >> .a-letter`;
+// const R_LETTER = `${LOGO_LAYER_ID} >> .r-letter`;
+const CAPITAL_B_LETTER = `${LOGO_LAYER_ID} >> .capt-b-letter`;
+const CAPITAL_P_LETTER = `${LOGO_LAYER_ID} >> .capt-p-letter`;
+const CAPITAL_M_LETTER = `${LOGO_LAYER_ID} >> .capt-m-letter`;
+const CAPITAL_N_LETTER = `${LOGO_LAYER_ID} >> .capt-n-letter`;
+const CAPITAL_R_LETTER = `${LOGO_LAYER_ID} >> .capt-r-letter`;
 const U_LETTER = `${LOGO_LAYER_ID} >> .u-letter`;
-const L_LETTER = `${LOGO_LAYER_ID} >> .l-letter`;
-const A_LETTER = `${LOGO_LAYER_ID} >> .a-letter`;
+const N1_LETTER = `${LOGO_LAYER_ID} >> .n1-letter`;
+const N2_LETTER = `${LOGO_LAYER_ID} >> .n2-letter`;
+const E_LETTER = `${LOGO_LAYER_ID} >> .e-letter`;
 const R_LETTER = `${LOGO_LAYER_ID} >> .r-letter`;
+
 
 const UWU_LAYER_ID = 'uwu';
 
@@ -150,15 +161,16 @@ export function generateHomeAnimationDefinition(
         transform: 'translateX(467px)', // Value based on the 1280x400 SVG view box
       },
     },
-    hideLetter(R_LETTER, 1),
-    hideLetter(A_LETTER, 1.5),
-    hideLetter(L_LETTER, 2),
-    hideLetter(U_LETTER, 2.5),
-    hideLetter(G_LETTER, 3),
-    hideLetter(N_LETTER, 3.5),
-    // Make sure that the last letter disappers at the end of layer transition,
-    // i.e. 4 + 1 = 5th second end time
-    hideLetter(CAPITAL_A_LETTER, 4),
+    hideLetter(R_LETTER, 1.0),
+    hideLetter(E_LETTER, 1.33),
+    hideLetter(N2_LETTER, 1.67),
+    hideLetter(N1_LETTER, 2.0),
+    hideLetter(U_LETTER, 2.33),
+    hideLetter(CAPITAL_R_LETTER, 2.67),
+    hideLetter(CAPITAL_N_LETTER, 3.0),
+    hideLetter(CAPITAL_M_LETTER, 3.33),
+    hideLetter(CAPITAL_P_LETTER, 3.67),
+    hideLetter(CAPITAL_B_LETTER, 4.0),
     {
       selector: SHIELD_MIDDLE,
       timeframe: timeframe(5.5, 5.6),
@@ -167,26 +179,6 @@ export function generateHomeAnimationDefinition(
       },
       to: {
         transform: 'scale(0)',
-      },
-    },
-    {
-      selector: SHIELD_BOTTOM_A_ARC,
-      timeframe: timeframe(5.5, 5.6),
-      from: {
-        transform: 'scaleY(1)',
-      },
-      to: {
-        transform: 'scaleY(0)',
-      },
-    },
-    {
-      selector: SHIELD_BOTTOM_EXTENSION,
-      timeframe: timeframe(5.5, 5.6),
-      from: {
-        transform: 'scale(0)',
-      },
-      to: {
-        transform: 'scale(1)',
       },
     },
     {
