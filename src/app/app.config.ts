@@ -2,6 +2,7 @@ import { ApplicationConfig, EnvironmentProviders, ErrorHandler, InjectionToken, 
 
 import { routerProviders } from './app.router-provider';
 import { WINDOW, windowProvider } from './utils/window';
+import { LOCAL_STORAGE, localStorageProvider } from './utils/local-storage';
 
 type ErrorProvider = {
   provide: typeof ErrorHandler;
@@ -13,13 +14,18 @@ type WindowProvider = {
   useFactory: () => (Window & typeof globalThis) | null;
 }
 
+type LocalStorageProvider = {
+  provide: InjectionToken<Storage>;
+  useFactory: () => (Storage) | null
+}
+
 class GlobalErrorHandler implements ErrorHandler {
   handleError(error: any): void {
     console.error('Global Error Captured:', error);
   }
 }
 
-export const coreProviders: (EnvironmentProviders | WindowProvider)[] = [
+export const coreProviders: (EnvironmentProviders | WindowProvider | LocalStorageProvider)[] = [
   provideZoneChangeDetection({ 
     eventCoalescing: true, 
     runCoalescing: true 
@@ -27,6 +33,10 @@ export const coreProviders: (EnvironmentProviders | WindowProvider)[] = [
   { 
     provide: WINDOW, 
     useFactory: windowProvider 
+  },
+  {
+    provide: LOCAL_STORAGE,
+    useFactory: localStorageProvider
   }
 ];
 

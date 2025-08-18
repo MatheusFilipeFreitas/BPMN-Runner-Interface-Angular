@@ -12,6 +12,11 @@
   }
 }
 
+.app-nav {
+  width: 110px;
+  z-index: 100;
+}
+
 .docs-app-main-content {
   display: flex;
   flex-direction: column;
