@@ -1,17 +1,10 @@
 @use 'sass:math';
-/*
- * Global transition.
- *
- * Scrolling via mouse scroll wheel will result in a non-continuous scrollY,
- * unlike a touchpad, which in turn results in "gaps" in the animation calculations.
- * Therefore, in order to keep things smooth, we are systematically adding CSS
- * transitions to the CSS properties that else look jagged when scrolling.
- */
+
 $transition: 200ms linear;
 
 @font-face {
   font-family: "Inter Tight";
-  src: url("/assets/fonts/InterTight-500.woff2") format("woff2");
+  src: url("/assets/fonts/InterTight-VariableFont_wght.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -224,7 +217,7 @@ $transition: 200ms linear;
     }
 
     .works-at-any-scale-layer,
-    .loved-by-millions-layer,
+    .use-it-anywhere-layer,
     .build-for-everyone-layer {
       user-select: none;
       pointer-events: none;
@@ -244,7 +237,7 @@ $transition: 200ms linear;
       transform: scale(0);
     }
 
-    .loved-by-millions-layer,
+    .use-it-anywhere-layer,
     .build-for-everyone-layer {
       transform: scale(0.75);
     }
@@ -340,7 +333,7 @@ $transition: 200ms linear;
       }
 
       .works-at-any-scale-layer,
-      .loved-by-millions-layer,
+      .use-it-anywhere-layer,
       .build-for-everyone-layer {
         position: relative;
         height: 120vh;

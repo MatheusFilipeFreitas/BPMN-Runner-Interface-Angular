@@ -1,13 +1,5 @@
-/*!
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.dev/license
- */
-
-import {ElementRef, Injector, Renderer2, RendererFactory2} from '@angular/core';
-import {Animation} from './animation';
+import { ElementRef, Injector, Renderer2, RendererFactory2 } from '@angular/core';
+import { Animation } from './animation';
 import { AnimationPlugin } from './animation.plugin';
 
 const RESIZE_DEBOUNCE = 500;
@@ -19,14 +11,8 @@ export class AnimationScrollHandler implements AnimationPlugin {
   private scrollHeight: number = 0;
   private spacer?: HTMLElement;
   private resizeDebounceTimeout?: ReturnType<typeof setTimeout>;
+  private ticking: boolean = false;
 
-  /**
-   * Enables page scroll control over the animation.
-   *
-   * @param hostElementRef `ElementRef` of the animation host component.
-   * @param injector
-   * @param addSpacer Enabled by default. Use when the position of the animation is `fixed`.
-   */
   constructor(
     private hostElementRef: ElementRef,
     injector: Injector,
@@ -36,23 +22,27 @@ export class AnimationScrollHandler implements AnimationPlugin {
     this.renderer = injector.get(RendererFactory2).createRenderer(null, null);
   }
 
-  init(animation: Animation) {
-    // Calculate the total scroll height needed for the animation.
+  public init(animation: Animation): void {
     this.scrollHeight = animation.duration / animation.timestep;
 
     this.unlisteners.push(
       this.renderer.listen(this.win, 'scroll', () => {
-        if (animation.isPlaying()) {
-          animation.pause();
+        if (!this.ticking) {
+          requestAnimationFrame(() => {
+            if (animation.isPlaying()) {
+              animation.pause();
+            }
+            const progress = this.win.scrollY / this.scrollHeight;
+            animation.seek(progress);
+            this.ticking = false;
+          });
+          this.ticking = true;
         }
-        const progress = this.win.scrollY / this.scrollHeight;
-        animation.seek(progress);
       }),
     );
 
     if (this.addSpacer) {
       this.createSpacer();
-
       this.unlisteners.push(
         this.renderer.listen(this.win, 'resize', () => {
           if (this.resizeDebounceTimeout) {
@@ -64,14 +54,13 @@ export class AnimationScrollHandler implements AnimationPlugin {
     }
   }
 
-  destroy() {
+  public destroy(): void {
     for (const unlisten of this.unlisteners) {
       unlisten();
     }
   }
 
-  /** Creates and stores a spacer that occupies/creates the scrollable space needed for the animation. */
-  private createSpacer() {
+  private createSpacer(): void {
     this.spacer = this.renderer.createElement('div');
     this.renderer.addClass(this.spacer, 'anim-scroll-spacer');
     this.updateSpacerHeight();
@@ -79,8 +68,7 @@ export class AnimationScrollHandler implements AnimationPlugin {
     this.hostElementRef.nativeElement.appendChild(this.spacer);
   }
 
-  /** Update stored spacer's height. */
-  private updateSpacerHeight() {
+  private updateSpacerHeight(): void {
     const spacerHeight = this.scrollHeight + this.win.innerHeight;
     this.renderer.setStyle(this.spacer, 'height', spacerHeight + 'px');
   }

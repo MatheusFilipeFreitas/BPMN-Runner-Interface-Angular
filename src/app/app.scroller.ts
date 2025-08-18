@@ -9,7 +9,12 @@ import {
   AfterRenderRef,
 } from '@angular/core';
 import { Scroll, Router } from '@angular/router';
-import { filter, firstValueFrom, map, switchMap, tap } from 'rxjs';
+import { filter, first, map, switchMap, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+interface NavigationInfo {
+  disableScrolling?: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AppScroller {
@@ -18,55 +23,66 @@ export class AppScroller {
   private readonly appRef = inject(ApplicationRef);
   private readonly injector = inject(EnvironmentInjector);
 
-  private lastScroll?: Scroll;
-  private cancelScroll?: () => void;
+  private lastScrollEvent?: Scroll;
+  private cancelPendingScroll?: () => void;
 
   constructor() {
     this.viewportScroller.setHistoryScrollRestoration('manual');
-
-    this.router.events
-      .pipe(
-        filter((e): e is Scroll => e instanceof Scroll),
-        tap((e) => {
-          this.cancelScroll?.();
-          this.lastScroll = e;
-        }),
-        filter(() => !this.isDisabled()),
-        switchMap((e) =>
-          firstValueFrom(this.appRef.isStable.pipe(filter(Boolean), map(() => e)))
-        )
-      )
-      .subscribe(() => this.scroll());
+    this.observeNavigationScroll();
   }
 
-  private isDisabled(): boolean {
-    const info = this.router.lastSuccessfulNavigation?.extras.info as 
-      | { disableScrolling?: boolean }
-      | undefined;
+  private observeNavigationScroll(): void {
+    this.router.events
+      .pipe(
+        filter((event): event is Scroll => event instanceof Scroll),
+        tap((event) => {
+          this.cancelPendingScroll?.();
+          this.lastScrollEvent = event;
+        }),
+        filter(() => !this.isScrollingDisabled()),
+        switchMap((event) =>
+          this.appRef.isStable.pipe(
+            filter(Boolean),
+            first(),
+            map(() => event)
+          )
+        ),
+        takeUntilDestroyed()
+      )
+      .subscribe(() => this.executeScroll());
+  }
+
+  private isScrollingDisabled(): boolean {
+    const info = this.router.lastSuccessfulNavigation?.extras
+      .info as NavigationInfo | undefined;
     return !!info?.disableScrolling;
   }
 
-  public scroll(injector?: Injector): void {
-    if (!this.lastScroll) return;
+  public executeScroll(customInjector?: Injector): void {
+    if (!this.lastScrollEvent) return;
 
-    const { anchor, position } = this.lastScroll;
+    const target = this.resolveScrollTarget(this.lastScrollEvent);
     const ref = afterNextRender(
       {
         write: () =>
-          position
-            ? this.viewportScroller.scrollToPosition(position)
-            : anchor
-            ? this.viewportScroller.scrollToAnchor(anchor)
-            : this.viewportScroller.scrollToPosition([0, 0]),
+          Array.isArray(target)
+            ? this.viewportScroller.scrollToPosition(target)
+            : this.viewportScroller.scrollToAnchor(target),
       },
-      { injector: injector ?? this.injector }
+      { injector: customInjector ?? this.injector }
     );
 
-    this.resetParams(ref);
+    this.finalizeScroll(ref);
   }
 
-  public resetParams(ref: AfterRenderRef): void {
-    this.cancelScroll = () => ref.destroy();
-    this.lastScroll = undefined;
+  private resolveScrollTarget(scroll: Scroll): [number, number] | string {
+    if (scroll.position) return scroll.position;
+    if (scroll.anchor) return scroll.anchor;
+    return [0, 0];
+  }
+
+  private finalizeScroll(ref: AfterRenderRef): void {
+    this.cancelPendingScroll = () => ref.destroy();
+    this.lastScrollEvent = undefined;
   }
 }

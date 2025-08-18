@@ -73,7 +73,7 @@ export default class HomeAnimationComponent {
       read: () => {
         const animation = this.animCreator
           .createAnimation(this.animationLayers(), {timestep: ANIM_TIMESTEP})
-          .define(generateHomeAnimationDefinition(false, this.meteors().length))
+          .define(generateHomeAnimationDefinition(this.meteors().length))
           .addPlugin(new AnimationScrollHandler(this.elementRef, this.injector));
 
         this.ready.emit(true);

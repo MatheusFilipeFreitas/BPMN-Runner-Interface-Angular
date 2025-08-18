@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, DOCUMENT, inject, Renderer2, signal } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import HomeAnimationComponent from "./animation/home-animation";
+import { ChangeDetectionStrategy, Component, DestroyRef, DOCUMENT, inject, signal } from "@angular/core";
 import { WINDOW } from "../../utils/window";
+import HomeAnimationComponent from './animation/home-animation';
 
 @Component({
   selector: 'app-home',
@@ -11,25 +10,28 @@ import { WINDOW } from "../../utils/window";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class HomeComponent {
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly renderer = inject(Renderer2);
   private readonly doc = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
-
-  protected readonly isUwu = 'uwu' in this.activatedRoute.snapshot.queryParams;
-
-  private scrollProgress = signal<number>(0);
-  public animationReady = signal<boolean>(false);
   private readonly window = inject(WINDOW);
 
+  public scrollProgress = signal<number>(0);
+  public animationReady = signal<boolean>(false);
+
   constructor() {
-    const scrollListenerCleanupFn = this.renderer.listen(this.window, 'scroll', () =>
-      this.scrollProgress.set(this.window.scrollY / this.doc.body.scrollHeight),
-    );
-    this.destroyRef.onDestroy(() => scrollListenerCleanupFn());
+    this.onScrollEventHandler();
   }
 
-  public onAnimationReady(ready: boolean) {
+  public onAnimationReady(ready: boolean): void {
     this.animationReady.set(ready);
+  }
+
+  private onScrollEventHandler(): void {
+    const onScroll = () => {
+      const maxScroll = this.doc.body.scrollHeight - this.window.innerHeight;
+      this.scrollProgress.set(this.window.scrollY / maxScroll);
+    };
+
+    this.window.addEventListener('scroll', onScroll);
+    this.destroyRef.onDestroy(() => this.window.removeEventListener('scroll', onScroll));
   }
 }

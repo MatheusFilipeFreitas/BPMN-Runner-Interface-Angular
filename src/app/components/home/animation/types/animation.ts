@@ -7,13 +7,10 @@ import {cssValueParser, stringifyParsedValue} from '../utils/animation.css-parse
 import {calculateNextCssValue} from '../utils/animation.calculation';
 import { AnimationPlugin } from './animation.plugin';
 
-// The string seperator between a layed ID and an object selector.
 const SEL_SEPARATOR = '>>';
 
-// One millisecond.
 const MS = 1000;
 
-// Default config.
 const DEFAULT_CONFIG: AnimationConfig = {
   timestep: 100,
 };
@@ -27,18 +24,14 @@ const getEndTime = (r: AnimationRule<Styles | ParsedStyles>): number =>
 const getEndStyles = (r: AnimationRule<ParsedStyles>): ParsedStyles =>
   r.timeframe ? r.to : r.styles;
 
-/**
- * CSS animation player/processor.
- */
 export class Animation {
   private renderer: Renderer2;
 
-  /** Parsed rules. Time is in milliseconds. */
   private rules: AnimationRule<ParsedStyles>[] = [];
   private config: AnimationConfig;
   private currentTime: number = 0;
-  private allObjects = new Map<string, Element | Element[]>(); // selector; element(s)
-  private activeStyles = new Map<string, ParsedStyles>(); // selector; ParsedStyles
+  private allObjects = new Map<string, Element | Element[]>();
+  private activeStyles = new Map<string, ParsedStyles>();
   private animationFrameId: number | null = null;
   private completed: boolean = false;
   private plugins: AnimationPlugin[] = [];
@@ -46,10 +39,7 @@ export class Animation {
   private _isPlaying = signal<boolean>(false);
   private _progress = signal<number>(0);
 
-  /** Returns whether the animation is playing or not */
   isPlaying = this._isPlaying.asReadonly();
-
-  /** Returns the animation progress (`[0,1]`) */
   progress = this._progress.asReadonly();
 
   constructor(
@@ -66,28 +56,18 @@ export class Animation {
     }));
   }
 
-  /** Animation duration. In milliseconds */
   get duration() {
     return this._duration;
   }
 
-  /** Animation timestep (config). In milliseconds */
   get timestep() {
     return this.config.timestep;
   }
 
-  /**
-   * Define the animation.
-   *
-   * @param definition Definition (i.e. `AnimationRule` array)
-   * @returns The animation
-   */
   define(definition: AnimationDefinition) {
     this.reset();
     this.extractObjectsAndValidateRules(definition);
 
-    // Parse the rules.
-    // IMPORTANT: Parsed rules use milliseconds instead of seconds.
     this.rules = definition
       .sort((a, b) => getStartTime(a) - getStartTime(b))
       .map((rule) => {
@@ -101,7 +81,6 @@ export class Animation {
           for (const [prop, val] of Object.entries(rule.to)) {
             to[prop] = cssValueParser(val as string);
           }
-          // Convert to milliseconds.
           const msTimeframe = rule.timeframe.map((t: any) => t * MS) as [number, number];
 
           return {...rule, from, to, timeframe: msTimeframe};
@@ -111,21 +90,17 @@ export class Animation {
           for (const [prop, val] of Object.entries(rule.styles)) {
             styles[prop] = cssValueParser(val as string);
           }
-          // Convert to milliseconds.
           const msAt = rule.at * MS;
 
           return {...rule, styles, at: msAt};
         }
       });
 
-    // Calculate the duration of the animation.
-    // IMPORTANT: Use parsed rules with milliseconds.
     this._duration = Math.max(...this.rules.map((r) => getEndTime(r)));
 
     return this;
   }
 
-  /** Play the animation. */
   play() {
     if (this.animationFrameId !== null) {
       return;
@@ -141,11 +116,9 @@ export class Animation {
 
     this._isPlaying.set(true);
 
-    // Start the animation.
     this.animate(Date.now(), 0);
   }
 
-  /** Pause the animation. */
   pause() {
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
@@ -154,12 +127,6 @@ export class Animation {
     }
   }
 
-  /**
-   * Fast-forward or go back at a specific time.
-   *
-   * @param progress Time (in percent) at which the player should render the animation
-   * @returns
-   */
   seek(progress: number) {
     this.pause();
 
@@ -175,12 +142,6 @@ export class Animation {
     this.completed = progress === 1;
   }
 
-  /**
-   * Go forward in time.
-   *
-   * @param timestep Custom timestep different from the config one
-   * @returns
-   */
   forward(timestep?: number) {
     this.pause();
 
@@ -199,12 +160,6 @@ export class Animation {
     }
   }
 
-  /**
-   * Go back in time.
-   *
-   * @param timestep Custom timestep different from the config one
-   * @returns
-   */
   back(timestep?: number) {
     this.pause();
 
@@ -219,12 +174,10 @@ export class Animation {
     if (time >= 0) {
       this.updateFrame(time);
 
-      // Un-complete the animation, if it was completed.
       this.completed = false;
     }
   }
 
-  /** Reset the animation. */
   reset() {
     this.pause();
     this.currentTime = 0;
@@ -238,17 +191,10 @@ export class Animation {
     }
   }
 
-  /** Alias for `reset`. */
   stop() {
     this.reset();
   }
 
-  /**
-   * Add and initialize `AnimationPlugin` to the animation.
-   *
-   * @param plugin Plugin to be added
-   * @returns The animation
-   */
   addPlugin(plugin: AnimationPlugin) {
     plugin.init(this);
     this.plugins.push(plugin);
@@ -256,10 +202,6 @@ export class Animation {
     return this;
   }
 
-  /**
-   * Cleans all of the resources that might cause memory leaks (e.g. plugins).
-   * Resets the animation and cleans the definition.
-   */
   dispose() {
     for (const plugin of this.plugins) {
       plugin.destroy();
@@ -270,24 +212,16 @@ export class Animation {
     this.plugins = [];
   }
 
-  /**
-   * Update the frame/animation by a given time.
-   *
-   * @param time Time at which the animation should be rendered.
-   */
   private updateFrame(time: number) {
     const completedRules = this.rules.filter((r) => time >= getEndTime(r));
     const inProgressDynamicRules = this.rules.filter((r) => {
       const start = getStartTime(r);
       const end = getEndTime(r);
-      // We exclude the static animation rules by `start < end` since `start == end`.
       return start < end && start <= time && time <= end;
     }) as DynamicAnimationRule<ParsedStyles>[];
 
-    // All styles/styles state at `time`.
     const stylesState = new Map<string, ParsedStyles>();
 
-    // Extract the completed rules (their styles) directly ...
     for (const rule of completedRules) {
       let objectStyles = stylesState.get(rule.selector) || {};
       objectStyles = {...objectStyles, ...getEndStyles(rule)};
@@ -296,23 +230,12 @@ export class Animation {
 
     const deltaTime = time - this.currentTime;
 
-    // ... and then calculate the change of the dynamic rules in progress.
     for (const rule of inProgressDynamicRules) {
       let timespan: number;
-      let targetStyles: ParsedStyles; // Direction styles
-      let sourceStyles: ParsedStyles; // Opposite direction styles
+      let targetStyles: ParsedStyles;
+      let sourceStyles: ParsedStyles;
       let relativeDeltaT: number;
 
-      // Determine the change direction. Negative Dt means going back in time; postive – forward.
-      //
-      // It's important to calculate the relative time since the global current time might go out of
-      // rule boundaries which will scew the final change rate calculations.
-      //
-      // For example:
-      // If the currentTime = 0; time = 2; for a rule active between [1, 5];
-      // the Dt = 2, but only one second has passed from the rule's timespan,
-      // i.e. we have to use a relative time which in this case is equal to timespan[0].
-      // relativeDt = 1 (not 2); timespan = 4 (not 5); changeRate = 0.25 (not 0.4)
       if (deltaTime > 0) {
         const relativeTime = rule.timeframe[0];
         relativeDeltaT = time - relativeTime;
@@ -338,7 +261,6 @@ export class Animation {
       stylesState.set(rule.selector, styles);
     }
 
-    // Get rid of any active styles that are not part of the current styles state
     for (const [selector, styles] of this.activeStyles) {
       const newStyles = stylesState.get(selector);
       for (const prop of Object.keys(styles)) {
@@ -348,7 +270,6 @@ export class Animation {
       }
     }
 
-    // Apply the new rule styles.
     for (const [selector, styles] of stylesState) {
       for (const [prop, value] of Object.entries(styles)) {
         this.setStyle(selector, prop, value);
@@ -359,7 +280,6 @@ export class Animation {
     this._progress.set(time / this.duration);
   }
 
-  /** Set active style. */
   private setStyle(selector: string, property: string, value: CssPropertyValue) {
     const elements = this.allObjects.get(selector)!;
 
@@ -378,7 +298,6 @@ export class Animation {
     this.activeStyles.set(selector, activeStyles);
   }
 
-  /** Remove active style. */
   private removeStyle(selector: string, property: string) {
     const elements = this.allObjects.get(selector)!;
 
@@ -394,7 +313,6 @@ export class Animation {
     delete activeStyles[property];
   }
 
-  /** Animate function. */
   private animate(then: number, elapsed: number) {
     this.animationFrameId = requestAnimationFrame(() => this.animate(then, elapsed));
 
@@ -402,7 +320,6 @@ export class Animation {
     elapsed = now - then;
 
     if (elapsed >= this.config.timestep) {
-      // Subtract the overflowed time from Now to maintain steady fps.
       then = now - (elapsed % this.config.timestep);
 
       const time = this.currentTime + elapsed;
@@ -410,16 +327,8 @@ export class Animation {
       if (time <= this._duration) {
         this.updateFrame(time);
       } else {
-        // Pause the animation and mark it as completed
-        // when we go over the duration.
         this.pause();
         this.completed = true;
-
-        // Since the last frame can be few milliseconds behind the duration
-        // (e.g. duration = 5000; current time = 4998) when the animation is
-        // completed, we perform one additional call to updateFrame in order
-        // to visualize any remaining static rules that match exactly the end
-        // of the animation.
         if (this.duration > this.currentTime) {
           requestAnimationFrame(() => this.updateFrame(this.duration));
         }
@@ -427,7 +336,6 @@ export class Animation {
     }
   }
 
-  /** Extract the objects from the selectors and validate their rules. */
   private extractObjectsAndValidateRules(definition: AnimationDefinition) {
     for (const rule of definition) {
       this.validateRules(rule);
@@ -435,7 +343,6 @@ export class Animation {
     }
   }
 
-  /** Check whether the start and end styles match and the time frame is correct. */
   private validateRules(rule: AnimationRule<Styles>) {
     if (!rule.timeframe) {
       return;
@@ -469,9 +376,6 @@ export class Animation {
     }
   }
 
-  /**
-   * Extracts all objects (layer elements and layer child elements) by their provided selectors.
-   */
   private extractObjects(rule: AnimationRule<Styles>) {
     let [layerId, objectSelector] = rule.selector.split(SEL_SEPARATOR);
     layerId = layerId.trim();

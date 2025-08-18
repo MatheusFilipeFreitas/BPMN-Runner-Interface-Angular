@@ -1,5 +1,5 @@
 <div class="animation" [class.reduced-motion]="reducedMotion()">
-  <div adevAnimationLayer layerId="logo" class="logo-layer layer">
+  <div appAnimationLayer layerId="logo" class="logo-layer layer">
     <svg xmlns="http://www.w3.org/2000/svg" class="svg" viewBox="0 0 1280 400">
       <defs>
         <linearGradient
@@ -78,17 +78,15 @@
     </svg>
   </div>
 
-  <!-- Works at any scale -->
-  <div adevAnimationLayer layerId="works-at-any-scale" class="works-at-any-scale-layer layer">
+  <div appAnimationLayer layerId="works-at-any-scale" class="works-at-any-scale-layer layer">
     <h2>Works at Any Scale</h2>
     <p>
       BPMN Runner lets you start small with clarity and structure, guiding your team as it grows and your processes evolve.
     </p>
   </div>
 
-  <!-- Meteor field -->
   @if (meteorFieldData(); as meteorFieldData) {
-    <div adevAnimationLayer layerId="meteor-field" class="meteor-field-layer layer">
+    <div appAnimationLayer layerId="meteor-field" class="meteor-field-layer layer">
       <div
         class="field"
         [style.width]="meteorFieldData.width + 'px'"
@@ -103,16 +101,14 @@
     </div>
   }
 
-  <!-- Use it anywhere -->
-  <div adevAnimationLayer layerId="loved-by-millions" class="loved-by-millions-layer layer">
+  <div appAnimationLayer layerId="use-it-anywhere" class="use-it-anywhere-layer layer">
     <h2>Use It Anywhere</h2>
     <p>
       Crafted to work seamlessly in any environment. Focus on what matters most — simplicity, efficiency, and productivity.
     </p>
   </div>
 
-  <!-- Build for everyone -->
-  <div adevAnimationLayer layerId="build-for-everyone" class="build-for-everyone-layer layer">
+  <div appAnimationLayer layerId="build-for-everyone" class="build-for-everyone-layer layer">
     <h2 class="title">Built for Everyone</h2>
     <p>
       Empower teams worldwide with BPMN's accessibility and performance, making process modeling easy for everyone.

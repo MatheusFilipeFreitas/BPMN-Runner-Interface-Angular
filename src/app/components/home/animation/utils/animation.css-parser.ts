@@ -1,13 +1,5 @@
-/*!
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.dev/license
- */
 import { ColorValue, CssPropertyValue, NumericValue, TransformValue } from './animation.rule';
 
-// Transform functions that can be parsed
 const SUPPORTED_FUNCS = [
   'translate',
   'rotate',
@@ -37,17 +29,11 @@ type CharType =
 
 type BufferType = 'text' | 'color' | 'number' | null;
 
-// Symbols/`CharType`-s that mark the end of a token
-// but should not be included as such.
 const END_SYMBOLS: CharType[] = ['space', 'bracket', 'comma'];
 
 interface ParserHandler {
   (tokens: (string | number)[]): CssPropertyValue | null;
 }
-
-//
-// Handlers
-//
 
 function getCharType(char: string): CharType {
   if (char === '.') {
@@ -83,7 +69,6 @@ function getCharType(char: string): CharType {
   return 'unknown';
 }
 
-/** Get the lexer buffer type of a `CharType`. */
 function getBufferType(type: CharType, currentBuffer: BufferType): BufferType {
   const colorSymbols: CharType[] = ['hash'];
   if (colorSymbols.includes(type) || currentBuffer === 'color') {
@@ -114,27 +99,22 @@ function cssValueLexer(value: string): (string | number)[] {
     const charType = getCharType(char);
     const newBufferType = getBufferType(charType, bufferType);
 
-    // Check if token end has been reached
     if (END_SYMBOLS.includes(charType) && buffer) {
       addToken();
       buffer = '';
       bufferType = null;
     } else if (newBufferType !== null) {
       if (newBufferType !== bufferType && bufferType !== null) {
-        // Handle a new token/token change
         addToken();
         buffer = char;
         bufferType = newBufferType;
       } else if (newBufferType === bufferType || bufferType === null) {
-        // Accumulate token string
         buffer += char;
         bufferType = newBufferType;
       }
     }
   }
 
-  // If the buffer is still filled,
-  // add the remaing as the last token
   if (buffer) {
     addToken();
   }
@@ -148,10 +128,8 @@ const colorValuesHandler: ParserHandler = (tokens) => {
     if (token.startsWith('#')) {
       const channels = [];
 
-      // Handle standard syntax: #ffffff
       if (token.length === 7) {
         let channelBuffer = '';
-        // Skip the first element since it represents the type.
         for (let i = 1; i < token.length; i++) {
           channelBuffer += token[i];
           if (channelBuffer.length === 2) {
@@ -161,7 +139,6 @@ const colorValuesHandler: ParserHandler = (tokens) => {
           }
         }
       } else if (token.length === 4) {
-        // Handle shorthand color syntax: #fff
         for (let i = 1; i < token.length; i++) {
           const channel = token[i];
           const hex = channel + channel;
@@ -177,7 +154,6 @@ const colorValuesHandler: ParserHandler = (tokens) => {
         } as ColorValue;
       }
     }
-    // RGB and RGBA
     if ((token === 'rgb' && tokens.length === 4) || (token === 'rgba' && tokens.length === 5)) {
       return {
         type: 'color',
@@ -198,7 +174,6 @@ const numericValueHandler: ParserHandler = (tokens) => {
 
     for (const token of tokens) {
       if (typeof token === 'number') {
-        // Add a value to the list (with or without unit)
         if (buffer.length) {
           value.values.push((buffer.length === 1 ? [buffer[0], ''] : buffer) as [number, string]);
           buffer = [];
@@ -206,15 +181,12 @@ const numericValueHandler: ParserHandler = (tokens) => {
 
         buffer.push(token);
       } else if (buffer.length === 1) {
-        // If string, expect a numeric value (i.e. buffer.length == 1) in the buffer.
         buffer.push(token);
       } else {
-        // Any other case means, the value is invalid.
         return null;
       }
     }
 
-    // Add any remaining values in the buffer
     if (buffer.length) {
       value.values.push((buffer.length === 1 ? [buffer[0], ''] : buffer) as [number, string]);
     }
@@ -240,10 +212,7 @@ const transformValueHandler: ParserHandler = (tokens) => {
 
     for (const token of tokens) {
       if (typeof token === 'string' && SUPPORTED_FUNCS.includes(token)) {
-        // If there is already an extracted function, add it to the values map
         if (paramPairs.length || paramBuffer.length) {
-          // If the param buffer is full, this means that it doesn't
-          // match the usual [number, string][] pattern (i.e. it should be numbers-only)
           if (paramBuffer.length) {
             if (!isBufferNumOnly()) {
               isValid = false;
@@ -261,7 +230,6 @@ const transformValueHandler: ParserHandler = (tokens) => {
 
         functionName = token;
       } else if (functionName) {
-        // Handle standard param pairs – number + unit
         paramBuffer.push(token);
 
         if (
@@ -275,7 +243,6 @@ const transformValueHandler: ParserHandler = (tokens) => {
       }
     }
 
-    // Check for remaining functions after the loop has completed
     if (functionName && (paramPairs.length || paramBuffer.length)) {
       if (paramBuffer.length && isBufferNumOnly()) {
         const pairs = paramBuffer.map((v) => [v, ''] as [number, string]);
@@ -294,19 +261,8 @@ const transformValueHandler: ParserHandler = (tokens) => {
   return null;
 };
 
-// Include all handlers that should be part of the parsing here.
 const parserHandlers = [colorValuesHandler, numericValueHandler, transformValueHandler];
 
-//
-// Parser function
-//
-
-/**
- * Parse a string to a `CssPropertyValue`.
- *
- * @param value CSS property value
- * @returns Parsed CSS property value
- */
 export function cssValueParser(value: string): CssPropertyValue {
   const tokens = cssValueLexer(value);
 
@@ -317,7 +273,6 @@ export function cssValueParser(value: string): CssPropertyValue {
     }
   }
 
-  // If not handled
   return {
     type: 'static',
     value,
