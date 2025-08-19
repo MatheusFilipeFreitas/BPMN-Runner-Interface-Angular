@@ -13,7 +13,7 @@ export type Theme = 'dark' | 'light' | 'auto';
 @Injectable({
   providedIn: 'root',
 })
-export class ThemeManager {
+export class ThemeService {
   private readonly document = inject(DOCUMENT);
   private readonly localStorage = inject(LOCAL_STORAGE);
 

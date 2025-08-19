@@ -69,8 +69,61 @@
       <div class="nav-item">
 
       </div> 
-      <div class="nav-item">
-        
+      <div class="nav-item" [class.nav-item--active]="openedMenu === 'theme-picker'">
+        <button
+          type="button"
+          [cdkMenuTriggerFor]="themeMiniMenu"
+          [cdkMenuPosition]="miniMenuPositions"
+          aria-label="Open theme picker"
+          (cdkMenuClosed)="closeMenu()"
+          (cdkMenuOpened)="openMenu('theme-picker')"
+          class="icon-button"
+        >
+          <app-icon role="presentation">
+            {{ getThemeIcon }}
+          </app-icon>
+        </button>
+
+        <ng-template #themeMiniMenu>
+          <ul class="mini-menu" cdkMenu>
+            <li>
+              <button
+                type="button"
+                cdkMenuItem
+                (click)="setTheme('auto')"
+                aria-label="Set default system theme"
+                class="icon-button"
+              >
+                <app-icon class="app-icon_high-contrast">routine</app-icon>
+                <span>System</span>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                cdkMenuItem
+                (click)="setTheme('dark')"
+                aria-label="Set dark theme"
+                class="icon-button"
+              >
+                <app-icon class="app-icon_high-contrast">dark_mode</app-icon>
+                <span>Dark</span>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                cdkMenuItem
+                (click)="setTheme('light')"
+                aria-label="Set light theme"
+                class="icon-button"
+              >
+                <app-icon class="app-icon_high-contrast">light_mode</app-icon>
+                <span>Light</span>
+              </button>
+            </li>
+          </ul>
+        </ng-template>
       </div> 
     </div>
   </nav>
