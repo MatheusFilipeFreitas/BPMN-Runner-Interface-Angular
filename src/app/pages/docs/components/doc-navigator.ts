@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { NavigationLayer, navigationLayers } from "./data/navigation-options";
 
 @Component({
   selector: "app-doc-navigator",
@@ -7,5 +8,7 @@ import { Component } from "@angular/core";
   styleUrls: ["./doc-navigator.scss"]
 })
 export default class DocNavigatorComponent {
-  
+  get navigationLayers(): NavigationLayer[] {
+    return navigationLayers;
+  }
 }

@@ -1,0 +1,18 @@
+<ul class="nav-list">
+  @for (item of navigationLayers; track item.id) {
+    <li class="nav-topic">
+      <div class="nav-item-header">
+        <span>{{ item.title }}</span>
+      </div>
+      @if (item.childs) {
+        <ul class="nav-child-list">
+          @for (childItem of item.childs; track childItem.id) {
+            <li class="nav-child-item">
+              <a>{{ childItem.title }}</a>
+            </li>
+          }
+        </ul>
+      }
+    </li>
+  }
+</ul>

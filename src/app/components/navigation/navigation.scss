@@ -1,7 +1,17 @@
+@font-face {
+  font-family: "Inter Tight";
+  src: url("/assets/fonts/InterTight-VariableFont_wght.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :host {
   display: flex;
   position: sticky;
   top: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-optical-sizing: auto;
 
   .wrapper {
     width: 100%;

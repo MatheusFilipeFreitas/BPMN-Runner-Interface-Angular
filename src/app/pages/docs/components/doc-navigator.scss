@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Inter Tight";
+  src: url("/assets/fonts/InterTight-VariableFont_wght.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :host {
   display: flex;
   min-width: var(--secondary-nav-width);
@@ -11,4 +19,54 @@
   font-size: .875rem;
   box-sizing: border-box;
   padding-block: 2rem;
+  font-family: "Inter Tight", sans-serif;
+  font-optical-sizing: auto;
+}
+
+ul {
+  font-size: .875rem;
+  line-height: 1.4rem;
+  font-weight: 400;
+  letter-spacing: -.01rem;
+}
+
+li {
+  text-align: -webkit-match-parent;
+}
+
+.nav-list, .nav-child-list {
+  margin-inline-start: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.nav-child-list {
+  padding: 0;
+  margin: 0;
+  --faceted-list-border-width: 2px;
+  border-inline-start: calc(var(--faceted-list-border-width) - 1px) solid var(--senary-contrast);
+}
+
+.nav-item-header {
+  padding-block: 1.25rem;
+  font-weight: 500;
+}
+
+a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  line-height: 1.4rem;
+  letter-spacing: -0.00875rem;
+  padding: .5rem;
+  padding-inline-start: 1rem;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  background-color: var(--quaternary-contrast);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: background-color .3s ease;
 }
