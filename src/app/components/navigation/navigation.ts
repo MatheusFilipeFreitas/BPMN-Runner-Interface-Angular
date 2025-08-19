@@ -1,13 +1,9 @@
-import { Component, DestroyRef, DOCUMENT, inject, signal } from "@angular/core";
-import { NavigationEnd, Router, RouterLink } from "@angular/router";
+import { Component, inject, signal } from "@angular/core";
+import { Router, RouterLink } from "@angular/router";
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { IconComponent } from "../icon/icon";
 import { Theme, ThemeService } from "../../services/theme.service";
 import { ConnectionPositionPair } from "@angular/cdk/overlay";
-import { Location } from "@angular/common";
-import { filter, map, startWith } from "rxjs";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { PagePrefix } from "../../utils/page";
 
 type MenuType = 'social' | 'theme-picker' | 'version-picker';
 
@@ -18,14 +14,12 @@ type MenuType = 'social' | 'theme-picker' | 'version-picker';
   imports: [RouterLink, CdkMenuModule, IconComponent]
 })
 export default class NavigationComponent {
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly document = inject(DOCUMENT);
   private themeService = inject(ThemeService);
   private router = inject(Router);
-  private readonly location = inject(Location);
 
   public theme = this.themeService.theme;
   public openedMenu: MenuType | null = null;
+  public activeRouteItem = signal<string | null>(null);
 
   public miniMenuPositions = [
     new ConnectionPositionPair(
@@ -37,12 +31,6 @@ export default class NavigationComponent {
       {overlayX: 'start', overlayY: 'top'},
     ),
   ];
-
-  public activeRouteItem = signal<string | null>(null);
-
-  constructor() {
-    this.listenToRouteChange();
-  }
 
   public setTheme(theme: Theme): void {
     this.themeService.setTheme(theme);
@@ -75,19 +63,7 @@ export default class NavigationComponent {
     this.openedMenu = null;
   }
 
-  private listenToRouteChange(): void {
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        map((event) => (event as NavigationEnd).urlAfterRedirects),
-      )
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        startWith(this.location.path()),
-      )
-      .subscribe((url) => {
-        // setActivePrimaryRoute(getBaseUrlAfterRedirects(url, this.router));
-      });
+  public navigateToPath(path: string): void {
+    this.router.navigateByUrl(path);
   }
-
 }

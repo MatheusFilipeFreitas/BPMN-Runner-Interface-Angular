@@ -8,9 +8,24 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./components/home/home'),
+        loadComponent: () => import('./pages/home/home'),
         data: {label: 'Home'},
       },
+      {
+        path: 'docs',
+        loadComponent: () => import('./pages/docs/doc'),
+        data: {label: 'Docs'}
+      },
+      {
+        path: 'tutorial',
+        loadComponent: () => import('./pages/tutorial/tutorial'),
+        data: {label: 'Tutorial'}
+      },
+      {
+        path: 'playground',
+        loadComponent: () => import('./pages/playground/playground'),
+        data: {label: 'Playground'}
+      }
     ]
   }
 ];

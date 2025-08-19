@@ -108,6 +108,7 @@
 }
 
 .mini-menu {
+  margin-left: 31px;
   padding: 0;
   color: var(--primary-contrast);
   background-color: var(--page-background);
@@ -177,4 +178,9 @@
 .icon-button {
   background-color: transparent;
   border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }

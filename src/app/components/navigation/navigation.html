@@ -64,11 +64,41 @@
           </svg>
         </a>
       </li>
+      <li class="nav-item">
+        <button
+          type="button"
+          aria-label="Navigate to docs page"
+          class="icon-button"
+          (click)="navigateToPath('/docs')"
+        >
+          <app-icon class="app-icon_high-contrast">docs</app-icon>
+          <span>Docs</span>
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          type="button"
+          aria-label="Navigate to tutorial page"
+          class="icon-button"
+          (click)="navigateToPath('/tutorial')"
+        >
+          <app-icon class="app-icon_high-contrast">school</app-icon>
+          <span>Tutorial</span>
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          type="button"
+          aria-label="Navigate to playground page"
+          class="icon-button"
+          (click)="navigateToPath('/playground')"
+        >
+          <app-icon class="app-icon_high-contrast">code_blocks</app-icon>
+          <span>Playground</span>
+        </button>
+      </li>
     </ul>
     <div class="nav-bottom">
-      <div class="nav-item">
-
-      </div> 
       <div class="nav-item" [class.nav-item--active]="openedMenu === 'theme-picker'">
         <button
           type="button"

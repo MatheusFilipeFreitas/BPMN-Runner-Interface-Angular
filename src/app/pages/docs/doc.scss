@@ -1,0 +1,23 @@
+:host {
+  display: flex;
+  flex-direction: row;
+}
+
+.secondary-nav {
+  position: sticky;
+  top: 0;
+  overflow-x: hidden;
+  min-width: 16.25rem;
+  border-inline-end: 1px solid var(--septenary-contrast);
+  background-color: var(--page-background);
+  z-index: var(--z-index-nav);
+  transition: transform .45s ease;
+}
+
+.doc-main-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 2560px;
+}
