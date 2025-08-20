@@ -58,7 +58,7 @@ $transition: 200ms linear;
     .banners-layer {
       z-index: 10;
 
-      .adev-banner-container {
+      .banner-container {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
@@ -71,7 +71,7 @@ $transition: 200ms linear;
         left: calc(var(--layout-padding) + var(--primary-nav-width));
       }
 
-      .adev-banner {
+      .banner {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
@@ -146,7 +146,7 @@ $transition: 200ms linear;
           }
         }
 
-        .adev-arrow {
+        .icon-arrow {
           transform: rotate(45deg);
           border: solid var(--primary-contrast);
           border-width: 0 2px 2px 0;
@@ -198,21 +198,6 @@ $transition: 200ms linear;
             transition: opacity $transition;
           }
         }
-      }
-    }
-
-    .uwu-layer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition:
-        transform $transition,
-        opacity $transition;
-
-      img {
-        user-select: none;
-        width: max(calc(700 * min(100vw, 2560px) / 1470), 350px);
-        height: auto;
       }
     }
 
@@ -382,5 +367,25 @@ $transition: 200ms linear;
     &::after {
       opacity: 0;
     }
+  }
+}
+
+.arrow-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  animation: textPulse 2s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
