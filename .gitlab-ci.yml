@@ -3,20 +3,19 @@ stages:
   - deploy
 
 variables:
-  API_TOKEN: $AZURE_DEPLOYMENT_TOKEN
-  OUTPUT_LOCATION: "$CI_PROJECT_DIR/dist/bpmn-runner-doc-page/"
+  OUTPUT_LOCATION: "$CI_PROJECT_DIR/dist/bpmn-runner-doc-page/browser"
 
 build_job:
   stage: build
   image: node:22.18-alpine
   script:
-    - npm install
+    - npm ci
     - npm run build --prod
   artifacts:
     paths:
       - dist/
     expire_in: 1h
- 
+
 deploy_job:
   stage: deploy
   image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
@@ -26,16 +25,13 @@ deploy_job:
     API_TOKEN: $AZURE_DEPLOYMENT_TOKEN
     APP_PATH: "$CI_PROJECT_DIR"
     OUTPUT_PATH: "$CI_PROJECT_DIR/dist/bpmn-runner-doc-page/browser"
-    NODE_VERSION: "22.17.0"
+    NODE_VERSION: "22.18.0"
   before_script:
-    - apt-get update && apt-get install -y curl tar
-    - curl -fsSL https://nodejs.org/dist/v22.18.0/node-v22.18.0-linux-x64.tar.xz -o node.tar.xz
-    - tar -xf node.tar.xz
-    - mv node-v22.18.0-linux-x64 /usr/local/node
-    - export PATH=/usr/local/node/bin:$PATH
-    - node -v 
+    - echo "Using Node $NODE_VERSION"
+    - node -v
     - npm -v
   script:
-    - echo "App deployed successfully."
+    - echo "Deploying Angular app to Azure Static Web App..."
+    - swa deploy "$OUTPUT_PATH" --deployment-token "$API_TOKEN" --env production
   only:
     - main
