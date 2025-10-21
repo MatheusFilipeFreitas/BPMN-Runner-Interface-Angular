@@ -4,6 +4,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ],
     "types": []
   },
   "include": [

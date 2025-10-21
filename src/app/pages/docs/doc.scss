@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Inter Tight" !important;
+  src: url("/assets/fonts/InterTight-VariableFont_wght.woff2") format("woff2") !important;
+  font-weight: 500 !important;
+  font-style: normal;
+  font-display: swap;
+}
+
 :host {
   display: flex;
   flex-direction: row;
@@ -15,9 +23,39 @@
 }
 
 .doc-main-content {
+  font-family: "Inter Tight";
+  src: url("/assets/fonts/InterTight-VariableFont_wght.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  letter-spacing: 1px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  max-width: 2560px;
+  max-width: 870px;
+  padding: 50px 150px 20px 150px;
+  color: var(--primary-contrast);
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+::ng-deep {
+  pre {
+    max-width: 620px;
+    margin: 50px 0 0 0;
+    background-color: rgba(56, 55, 55, 0.191);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--quaternary-contrast);
+    
+  }
+
+  table, tr, td, th {
+    border: 1px solid var(--quaternary-contrast);
+    padding: 3px;
+  }
 }

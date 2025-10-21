@@ -78,17 +78,6 @@
       <li class="nav-item">
         <button
           type="button"
-          aria-label="Navigate to tutorial page"
-          class="icon-button"
-          (click)="navigateToPath('/tutorial')"
-        >
-          <app-icon class="app-icon_high-contrast">school</app-icon>
-          <span>Tutorial</span>
-        </button>
-      </li>
-      <li class="nav-item">
-        <button
-          type="button"
           aria-label="Navigate to playground page"
           class="icon-button"
           (click)="navigateToPath('/playground')"
@@ -155,6 +144,60 @@
           </ul>
         </ng-template>
       </div> 
+      <div class="nav-item">
+        @if(!isUserLoggedIn()) {
+          <button
+            type="button"
+            aria-label="Open theme picker"
+            (click)="login()"
+            class="icon-button log-button"
+          >
+            <app-icon class="app-icon_high-contrast">login</app-icon>
+          </button>
+        }
+        @else
+        {
+          <button
+            type="button log-button"
+            [cdkMenuTriggerFor]="userMiniMenu"
+            [cdkMenuPosition]="miniMenuPositions"
+            aria-label="Open login menu"
+            (cdkMenuClosed)="closeMenu()"
+            (cdkMenuOpened)="openMenu('login')"
+            class="icon-button"
+          >
+            <app-icon class="app-icon_high-contrast">account_circle</app-icon>
+          </button>
+          <ng-template #userMiniMenu>
+            <ul class="mini-menu" cdkMenu>
+              <li>
+                <button
+                  type="button"
+                  cdkMenuItem
+                  (click)="openModal('settings')"
+                  aria-label="Open modal settings"
+                  class="icon-button"
+                >
+                  <app-icon class="app-icon_high-contrast">settings</app-icon>
+                  <span>Settings</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  cdkMenuItem
+                  (click)="logout()"
+                  aria-label="Log out"
+                  class="icon-button"
+                >
+                  <app-icon class="app-icon_high-contrast">logout</app-icon>
+                  <span>Logout</span>
+                </button>
+              </li>
+            </ul>
+          </ng-template>
+        }
+      </div>
     </div>
   </nav>
 </div>
