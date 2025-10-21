@@ -10,7 +10,7 @@ build_job:
   image: node:22.17-alpine
   script:
     - npm install
-    - npm run build --prod
+    - npm run build:prod
   artifacts:
     paths:
       - dist/
