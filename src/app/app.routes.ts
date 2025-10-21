@@ -17,15 +17,15 @@ export const routes: Routes = [
         data: {label: 'Docs'}
       },
       {
-        path: 'tutorial',
-        loadComponent: () => import('./pages/tutorial/tutorial'),
-        data: {label: 'Tutorial'}
-      },
-      {
         path: 'playground',
         loadComponent: () => import('./pages/playground/playground'),
         data: {label: 'Playground'}
-      }
+      },
+      {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full',
+      },
     ]
   }
 ];
