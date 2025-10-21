@@ -1,0 +1,269 @@
+@font-face {
+  font-family: "Inter Tight" !important;
+  src: url("/assets/fonts/InterTight-VariableFont_wght.woff2") format("woff2") !important;
+  font-weight: 500 !important;
+  font-style: normal;
+  font-display: swap;
+}
+
+:host {
+  display: flex;
+  flex-direction: row;
+}
+
+.secondary-nav {
+  position: sticky;
+  top: 0;
+  overflow-x: hidden;
+  min-width: 250px;
+  border-inline-end: 1px solid var(--septenary-contrast);
+  background-color: var(--page-background);
+  z-index: var(--z-index-nav);
+  transition: transform .45s ease;
+}
+
+.doc-main-content {
+  display: flex;
+  flex-direction: column;
+  max-height: 60vh;
+  min-height: 60vh;
+  width: 100%;
+  max-width: 900px;
+  padding: 20px 40px;
+}
+
+ul {
+  font-size: .875rem;
+  line-height: 1.4rem;
+  font-weight: 400;
+  letter-spacing: -.01rem;
+}
+
+li {
+  text-align: -webkit-match-parent;
+}
+
+.nav-list, .nav-child-list {
+  margin-inline-start: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.nav-child-list {
+  padding: 0;
+  margin: 0;
+  --faceted-list-border-width: 2px;
+  border-inline-start: calc(var(--faceted-list-border-width) - 1px) solid var(--senary-contrast);
+}
+
+.nav-item-header {
+  padding-block: 1.25rem;
+  font-weight: 500;
+}
+
+a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  line-height: 1.4rem;
+  letter-spacing: -0.00875rem;
+  padding: .5rem;
+  padding-inline-start: 1rem;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+  background-color: var(--quaternary-contrast);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: background-color .3s ease;
+}
+
+::ng-deep {
+  table {
+    margin-top: 16px;
+    max-height: 453px !important;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  th {
+    background-color: var(--page-background) !important;
+    color: var(--secondary-contrast) !important;
+    border: none;
+    border-top: 1px solid var(--quaternary-contrast) !important;
+    border-top: 1px solid var(--quaternary-contrast) !important;
+  }
+
+  .p-listbox {
+    background: var(--page-background) !important;
+    color:  var(--primary-contrast) !important;
+    height: 100%;
+    width: 100%;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .p-inputtext {
+    background: var(--page-background) !important;
+    color: var(--primary-contrast) !important;
+  }
+
+  .p-datatable-tbody > tr {
+    background: var(--page-background) !important;
+    color: var(--primary-contrast) !important;
+  }
+}
+
+.no-content {
+  font-size: 15px;
+  margin-top: 15px;
+}
+
+
+app-icon {
+  color: var(--primary-contrast) !important;
+}
+
+.form-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+
+  input {
+    border-radius: 30px;
+    outline: none;
+    border: none;
+    width: 380px;
+    height: 2.60rem;
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+
+.docs-primary-btn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  position: relative;
+  min-width: 2.60rem;
+  min-height: 2.60rem;
+  border-radius: 50%;
+  padding: 0;
+  color: var(--primary-contrast);
+  --angle: 90deg;
+  background: linear-gradient(var(--angle), var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: var(--page-background);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .3s ease, background .3s ease;
+    color: var(--primary-contrast);
+    z-index: 1;
+  }
+
+  &:hover {
+    animation: spin-gradient 4s linear infinite forwards;
+    &::before {
+      background-color: var(--page-background);
+      background: var(--soft-pink-radial-gradient);
+      opacity: 0.9;
+    }
+    &::after {
+      opacity: 0;
+    }
+  }
+
+  app-icon {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.adev-cta {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 30px;
+  gap: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 63%;
+}
+
+.origin-table {
+  max-height: 338px;
+  overflow-y: auto;
+}
+
+.line {
+  margin: 20px 10px;
+  min-height: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  margin-right: 10% !important;
+  position: fixed;
+  margin-bottom: 30px !important;
+  min-width: 55%;
+  bottom: 0;
+  input {
+    min-width: 80%;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: transparent;
+    outline: none;
+    border: 1px solid var(--quaternary-contrast);
+    color: var(--primary-contrast);
+  }
+}
+
+.clicable-cell {
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.clicable-cell::after {
+  font-family: 'Material Icons';
+  content: 'content_copy';
+  font-size: 0.9rem;
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  opacity: 0;
+  color: #666;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.clicable-cell:hover::after {
+  opacity: 1;
+}
+
+.clicable-cell[data-copied="true"]::after {
+  content: 'check';
+  color: #00b341;
+  opacity: 1;
+}

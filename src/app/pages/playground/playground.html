@@ -1,0 +1,13 @@
+<div class="container">
+    <app-code-editor
+        [options]="options"
+        [content]="content"
+        (contentChange)="handleEditorChange($event)"
+    ></app-code-editor>
+    <div class="code-result">
+        <div class="viewer">
+            <app-viewer></app-viewer>
+        </div>
+        <div class="xml-viewer"></div>
+    </div>
+</div>

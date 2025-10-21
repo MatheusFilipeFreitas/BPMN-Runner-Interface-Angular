@@ -6,13 +6,39 @@
   font-display: swap;
 }
 
+::ng-deep {
+  .p-dialog {
+    background: var(--page-background) !important;
+    color: var(--primary-contrast) !important;
+    border: 1px solid var(--quaternary-contrast) !important;
+    border-radius: 0 !important;
+  }
+
+  .p-dialog-header {
+    font-family: "Inter Tight";
+    src: url("/assets/fonts/InterTight-VariableFont_wght.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    letter-spacing: 2px;
+  }
+
+  .p-dialog-mask {
+    backdrop-filter: blur(12px) saturate(160%);
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+
+  .material-symbols-outlined {
+    color: var(--secondary-contrast);
+  }
+}
+
 :host {
   display: flex;
   position: sticky;
   top: 0;
   font-family: "Inter Tight", sans-serif;
   font-optical-sizing: auto;
-
   .wrapper {
     width: 100%;
   }
@@ -78,7 +104,7 @@
     .nav-item--active {
       button {
         app-icon {
-          color: var(--primary-contrast);
+          color: var(--primary-contrast) !important;
         }
       }
     }
@@ -91,7 +117,6 @@
       padding-inline: 1rem;
 
       app-icon {
-        color: var(--quaternary-contrast);
         font-size: 1.5rem;
       }
 
@@ -193,4 +218,6 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  color: var(--primary-contrast) !important;
 }
+

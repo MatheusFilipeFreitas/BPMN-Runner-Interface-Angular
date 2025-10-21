@@ -20,7 +20,10 @@ export const navigationLayers: NavigationLayer[] = [
     childs: [
       { id: 'in-depth >> tasks', title: 'Tasks' },
       { id: 'in-depth >> gateways', title: 'Gateways' },
-      { id: 'in-depth >> events', title: 'Events' }
+      { id: 'in-depth >> events', title: 'Events' },
+      { id: 'in-depth >> pools', title: 'Pools' },
+      { id: 'in-depth >> processes', title: 'Processes' },
+      { id: 'in-depth >> messages', title: 'Message Flow' }
     ]
   }
 ]
