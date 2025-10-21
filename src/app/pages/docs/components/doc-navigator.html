@@ -7,7 +7,7 @@
       @if (item.childs) {
         <ul class="nav-child-list">
           @for (childItem of item.childs; track childItem.id) {
-            <li class="nav-child-item">
+            <li (click)="selectItem(childItem.id)" class="nav-child-item">
               <a>{{ childItem.title }}</a>
             </li>
           }

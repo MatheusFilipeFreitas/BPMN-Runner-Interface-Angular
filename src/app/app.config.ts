@@ -1,4 +1,4 @@
-import { ApplicationConfig, EnvironmentProviders, ErrorHandler, InjectionToken, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, EnvironmentProviders, ErrorHandler, importProvidersFrom, InjectionToken, provideBrowserGlobalErrorListeners, Provider, provideZoneChangeDetection } from '@angular/core';
 
 import { routerProviders } from './app.router-provider';
 import { WINDOW, windowProvider } from './utils/window';
@@ -75,6 +75,9 @@ export const appConfig: ApplicationConfig = {
   providers: [
     routerProviders,
     ...coreProviders,
-    ...errorProviders
+    ...errorProviders,
+    ...httpClientProviders,
+    ...firestoreProviders,
+    ...primengProviders,
   ]
 };
