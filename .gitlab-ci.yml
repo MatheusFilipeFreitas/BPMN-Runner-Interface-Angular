@@ -10,6 +10,9 @@ build_job:
   image: node:22.17-alpine
   script:
     - npm install
+    - echo "Generating environments file" 
+    - node setup-env.js 
+    - cat src/environments/environment.prod.ts
     - npm run build:prod
   artifacts:
     paths:
