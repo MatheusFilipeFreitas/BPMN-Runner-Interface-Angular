@@ -12,7 +12,6 @@ build_job:
     - npm install
     - echo "Generating environments file" 
     - node setup-env.js 
-    - cat src/environments/environment.prod.ts
     - npm run build:prod
   artifacts:
     paths:
