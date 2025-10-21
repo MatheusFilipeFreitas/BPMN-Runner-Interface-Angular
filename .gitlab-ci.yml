@@ -26,7 +26,7 @@ deploy_job:
   variables:
     API_TOKEN: $AZURE_DEPLOYMENT_TOKEN
     APP_PATH: "$CI_PROJECT_DIR"
-    OUTPUT_PATH: "$CI_PROJECT_DIR/dist/bpmn-runner-doc-page"
+    OUTPUT_PATH: "$CI_PROJECT_DIR/dist/bpmn-runner-doc-page/browser"
     NODE_VERSION: "22.17.0"
   before_script:
     - echo "Using Node $NODE_VERSION"
