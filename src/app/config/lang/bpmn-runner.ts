@@ -10,7 +10,7 @@ export function registerProcessLang(monaco: any, mode: Theme | null = 'light') {
       'pool', 'process', 'start', 'task', 'end', 'gateway',
       'scope', 'yes', 'no', 'message'
     ],
-    taskTypes: ['MANUAL', 'USER', 'AUTO'],
+    taskTypes: ['MANUAL', 'USER', 'AUTOMATED'],
     gatewayTypes: ['EXCLUSIVE', 'PARALLEL'],
     tokenizer: {
       root: [
@@ -137,7 +137,7 @@ export function registerProcessLang(monaco: any, mode: Theme | null = 'light') {
         const taskMatch = /task\s*\(\s*[^,]+,\s*"[^"]*"\s*,\s*$/i.test(textBeforeCursor);
         if (taskMatch) {
             return {
-                suggestions: ['MANUAL', 'USER', 'AUTO'].map(type => ({
+                suggestions: ['MANUAL', 'USER', 'AUTOMATED'].map(type => ({
                 label: type,
                 kind: monaco.languages.CompletionItemKind.EnumMember,
                 insertText: type,
@@ -178,7 +178,7 @@ export function registerProcessLang(monaco: any, mode: Theme | null = 'light') {
             kind: monaco.languages.CompletionItemKind.Keyword,
             insertText: 'task(${1:id}, "${2:label}", ${3:MANUAL});',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: 'Defines a task (MANUAL, USER, or AUTO).',
+            documentation: 'Defines a task (MANUAL, USER, or AUTOMATED).',
         },
         {
             label: 'gateway',
@@ -236,9 +236,9 @@ export function registerProcessLang(monaco: any, mode: Theme | null = 'light') {
             label: 'autoTask',
             kind: monaco.languages.CompletionItemKind.Snippet,
             insertText:
-            'task(${1:id}, "${2:label}", AUTO);',
+            'task(${1:id}, "${2:label}", AUTOMATED);',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: 'Creates a AUTO task.',
+            documentation: 'Creates a AUTOMATED task.',
         },
         {
             label: 'userTask',

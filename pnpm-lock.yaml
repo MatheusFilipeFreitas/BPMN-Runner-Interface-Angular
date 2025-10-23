@@ -44,6 +44,9 @@ importers:
       bpmn-js:
         specifier: ^18.7.0
         version: 18.7.0
+      diagram-js:
+        specifier: 15.4.0
+        version: 15.4.0
       marked:
         specifier: ^16.4.1
         version: 16.4.1
@@ -53,6 +56,9 @@ importers:
       ngx-markdown:
         specifier: ^20.1.0
         version: 20.1.0(@angular/common@20.3.6(@angular/core@20.3.6(@angular/compiler@20.3.6)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.6(@angular/compiler@20.3.6)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.6(@angular/animations@20.3.6(@angular/core@20.3.6(@angular/compiler@20.3.6)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.6(@angular/core@20.3.6(@angular/compiler@20.3.6)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.6(@angular/compiler@20.3.6)(rxjs@7.8.2)(zone.js@0.15.1)))(marked@16.4.1)(rxjs@7.8.2)(zone.js@0.15.1)
+      preact:
+        specifier: ^10.27.2
+        version: 10.27.2
       primeng:
         specifier: ^20.2.0
         version: 20.2.0(63b92a1e4f8cf3465e7f63b4a464f608)
