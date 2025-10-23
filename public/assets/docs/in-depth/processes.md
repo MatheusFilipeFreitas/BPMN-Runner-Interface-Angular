@@ -33,7 +33,7 @@ process(id, "Label") {
 pool(mainPool, "E-Commerce") {
   process(paymentProc, "Handle Payment") {
     start(s1);
-    task(t1, "Charge Credit Card", AUTO);
+    task(t1, "Charge Credit Card", AUTOMATED);
     end(e1);
   }
 }
