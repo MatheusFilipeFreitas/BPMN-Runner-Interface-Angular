@@ -44,7 +44,7 @@ Each task includes:
 **Available Task Types:**  
 - `MANUAL` → Human action required  
 - `USER` → System + human interaction  
-- `AUTO` → Fully automated by the system
+- `AUTOMATED` → Fully automated by the system
 
 <br><br>
 
@@ -72,8 +72,8 @@ Only **one branch** (`yes` or `no`) is executed depending on the decision.
 ```bpmn-runner
 gateway(g2, "Parallel Tasks", PARALLEL) {
   scope -> {
-    task(t3, "Send Email", AUTO);
-    task(t4, "Notify Admin", AUTO);
+    task(t3, "Send Email", AUTOMATED);
+    task(t4, "Notify Admin", AUTOMATED);
   }
 };
 ```
@@ -101,7 +101,7 @@ end(e1);
 Messages define **communication** or **signal exchange** between elements.
 
 ```bpmn-runner
-task(t1, "Send Invoice", AUTO) -> message(m1);
+task(t1, "Send Invoice", AUTOMATED) -> message(m1);
 message(m1);
 ```
 
@@ -121,7 +121,7 @@ Used to represent external communications between processes.
 | `SCOPE` | Used for concurrent execution in parallel gateways |
 | `MESSAGE` | Defines message or signal flows |
 | `ARROW (->)` | Defines process flow direction |
-| `TaskType` | Enum: `MANUAL`, `USER`, `AUTO` |
+| `TaskType` | Enum: `MANUAL`, `USER`, `AUTOMATED` |
 | `GatewayType` | Enum: `EXCLUSIVE`, `PARALLEL` |
 | `ID` | Unique alphanumeric identifier |
 | `STRING` | Text label wrapped in quotes `"..."` |
@@ -152,11 +152,11 @@ Comments help document your logic and are ignored during execution.
 Example (both are valid):
 
 ```bpmn-runner
-task ( t1 , "Check Inventory" , AUTO ) ;
+task ( t1 , "Check Inventory" , AUTOMATED ) ;
 ```
 
 and
 
 ```bpmn-runner
-task(t1, "Check Inventory", AUTO);
+task(t1, "Check Inventory", AUTOMATED);
 ```

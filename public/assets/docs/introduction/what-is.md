@@ -50,7 +50,7 @@ pool(mainPool, "Order Management") {
     task(t1, "Validate Order", USER);
     gateway(g1, "Payment Decision", EXCLUSIVE) {
       yes -> {
-        task(t2, "Charge Payment", AUTO);
+        task(t2, "Charge Payment", AUTOMATED);
       }
       no -> {
         task(t3, "Cancel Order", MANUAL);
@@ -83,13 +83,13 @@ Here’s how BPMN Runner could model an e-commerce payment process:
 pool(ecommerce, "E-Commerce System") {
   process(paymentFlow, "Payment Process") {
     start(s1);
-    task(t1, "Capture Payment", AUTO);
+    task(t1, "Capture Payment", AUTOMATED);
     gateway(g1, "Payment Approved?", EXCLUSIVE) {
       yes -> {
-        task(t2, "Send Confirmation Email", AUTO);
+        task(t2, "Send Confirmation Email", AUTOMATED);
       }
       no -> {
-        task(t3, "Notify Customer", AUTO);
+        task(t3, "Notify Customer", AUTOMATED);
       }
     };
     end(e1);

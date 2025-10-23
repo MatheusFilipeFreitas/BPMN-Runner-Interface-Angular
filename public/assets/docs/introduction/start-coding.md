@@ -27,10 +27,10 @@ pool(mainPool, "Order Management") {
     task(t2, "Validate Payment", USER);
     gateway(g1, "Payment Approved?", EXCLUSIVE) {
       yes -> {
-        task(t3, "Ship Product", AUTO);
+        task(t3, "Ship Product", AUTOMATED);
       }
       no -> {
-        task(t4, "Notify Customer", AUTO);
+        task(t4, "Notify Customer", AUTOMATED);
       }
     };
     end(e1);
@@ -92,7 +92,7 @@ pool(orderApp, "Order System") {
 
 ## Tips and Best Practices
 
-- Use **uppercase** for types (`MANUAL`, `AUTO`, `USER`)  
+- Use **uppercase** for types (`MANUAL`, `AUTOMATED`, `USER`)  
 - Always close definitions with a semicolon (`;`)  
 - Keep IDs short and descriptive (e.g., `t1`, `pOrder`, `gMain`)  
 - Use **exclusive gateways** for decisions  

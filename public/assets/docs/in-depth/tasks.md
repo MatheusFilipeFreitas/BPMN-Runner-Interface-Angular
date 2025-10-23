@@ -20,7 +20,7 @@ task(id, "Description", TYPE);
 |------------|--------------|
 | `id` | Unique identifier for the task |
 | `"Description"` | Human-readable label |
-| `TYPE` | Defines the execution mode (`MANUAL`, `USER`, or `AUTO`) |
+| `TYPE` | Defines the execution mode (`MANUAL`, `USER`, or `AUTOMATEDMATED`) |
 
 <br><br>
 
@@ -30,7 +30,7 @@ task(id, "Description", TYPE);
 |-------|-------------|
 | `MANUAL` | A human-only action with no system interaction. |
 | `USER` | A task involving user input or interaction through a system. |
-| `AUTO` | A fully automated system task. |
+| `AUTOMATED` | A fully automated system task. |
 
 <br><br>
 
@@ -39,7 +39,7 @@ task(id, "Description", TYPE);
 ```bpmn-runner
 start(s1);
 task(t1, "Check Inventory", MANUAL);
-task(t2, "Send Invoice", AUTO);
+task(t2, "Send Invoice", AUTOMATED);
 task(t3, "Notify Customer", USER);
 end(e1);
 ```
@@ -48,7 +48,7 @@ end(e1);
 
 ## Tips
 
-- Use **AUTO** for background logic or API calls.  
+- Use **AUTOMATED** for background logic or API calls.  
 - Use **USER** for UI-based interactions.  
 - Use **MANUAL** for actions performed by humans outside the system.  
 - Keep labels short but descriptive.

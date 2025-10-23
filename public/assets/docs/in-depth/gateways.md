@@ -33,10 +33,10 @@ gateway(id, "Label", TYPE) {
 ```bpmn-runner
 gateway(g1, "Is payment approved?", EXCLUSIVE) {
   yes -> {
-    task(t1, "Send Confirmation", AUTO);
+    task(t1, "Send Confirmation", AUTOMATED);
   }
   no -> {
-    task(t2, "Notify Customer", AUTO);
+    task(t2, "Notify Customer", AUTOMATED);
   }
 };
 ```
@@ -50,11 +50,11 @@ gateway(g1, "Is payment approved?", EXCLUSIVE) {
 ```bpmn-runner
 gateway(g2, "Perform Actions in Parallel", PARALLEL) {
   scope -> {
-    task(t3, "Update CRM", AUTO);
-    task(t4, "Send Email", AUTO);
+    task(t3, "Update CRM", AUTOMATED);
+    task(t4, "Send Email", AUTOMATED);
   }
   scope -> {
-    task(t5, "confirm sending of the email", AUTO);
+    task(t5, "confirm sending of the email", AUTOMATED);
   }
 };
 ```
