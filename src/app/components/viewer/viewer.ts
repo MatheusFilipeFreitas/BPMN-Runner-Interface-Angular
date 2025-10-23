@@ -1,56 +1,113 @@
-import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import BpmnJS from 'bpmn-js/dist/bpmn-viewer.production.min.js';
+import { Component, ElementRef, OnInit, OnDestroy, ViewChild, inject, effect } from '@angular/core';
+import Modeler from 'bpmn-js/lib/Modeler';
+
+// módulos extras
+import ZoomScrollModule from 'diagram-js/lib/navigation/zoomscroll';
+import MoveCanvasModule from 'diagram-js/lib/navigation/movecanvas';
+import { XmlService } from '../../services/xml.service';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { IconComponent } from '../icon/icon';
 
 @Component({
   selector: 'app-viewer',
-  standalone: true,
-  template: `<div #canvas class="bpmn-container"></div>`,
-  styles: [`
-    .bpmn-container {
-        width: 100%;
-        height: 518px;
-        border: 1px solid #ccc;
-        border-radius: 0;
-        color: var(--primary-contrast);
-        background-color: #ffffff;
-    }
-  `]
+  imports: [IconComponent],
+  template: `
+  <div class="viewer-toolbar">
+    <button class="fullscreen-button" type="button" (click)="toggleFullscreen()">
+      <app-icon class="app-icon_high-contrast">fullscreen</app-icon>
+    </button>
+    <button class="fullscreen-button" type="button" (click)="downloadXml()">
+      <app-icon class="app-icon_high-contrast">download</app-icon>
+    </button>
+  </div>
+  <div #canvas class="bpmn-container"></div>
+  `,
+  styleUrls: ['./viewer.scss']
 })
 export default class ViewerComponent implements OnInit, OnDestroy {
   @ViewChild('canvas', { static: true }) private canvasRef!: ElementRef;
-  private bpmnViewer!: BpmnJS;
 
-  async ngOnInit() {
-    this.bpmnViewer = new BpmnJS({ container: this.canvasRef.nativeElement });
+  private xmlService = inject(XmlService);
+  private bpmnModeler!: Modeler;
 
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-  xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
-  xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
-  targetNamespace="http://bpmn.io/schema/bpmn">
-  <process id="Process_1" isExecutable="false">
-    <startEvent id="StartEvent_1" name="Start" />
-  </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-      <bpmndi:BPMNShape id="Shape_StartEvent_1" bpmnElement="StartEvent_1">
-        <omgdc:Bounds x="150" y="150" width="36" height="36" />
-      </bpmndi:BPMNShape>
-    </bpmndi:BPMNPlane>
-  </bpmndi:BPMNDiagram>
-</definitions>`;
+  constructor() {
+    effect(async () => {
+        const xml = this.xmlService.content();
+        if (!xml || !this.bpmnModeler) return;
 
-    try {
-      await this.bpmnViewer.importXML(xml);
-      const canvas: any = this.bpmnViewer.get('canvas');
-      canvas.zoom('fit-viewport');
-    } catch (err) {
-      console.error('Erro ao carregar diagrama BPMN:', err);
-    }
+        try {
+          await this.bpmnModeler.importXML(xml);
+          const canvas: any = this.bpmnModeler.get('canvas');
+          const eventBus: any = this.bpmnModeler.get('eventBus');
+          const selection: any = this.bpmnModeler.get('selection');
+          canvas.zoom('fit-viewport');
+
+          eventBus.on('canvas.click', (event: any) => {
+            if (!event.originalEvent.target.closest('.djs-element')) {
+              selection.clear();
+            }
+          });
+
+        } catch (err) {
+          console.error('Erro ao carregar diagrama BPMN:', err);
+        }
+      });
+  }
+
+  ngOnInit() {
+    this.bpmnModeler = new Modeler({
+      container: this.canvasRef.nativeElement,
+      additionalModules: [
+        ZoomScrollModule,
+        MoveCanvasModule
+      ]
+    });
   }
 
   ngOnDestroy(): void {
-    this.bpmnViewer?.destroy();
+    this.bpmnModeler?.destroy();
   }
+
+  toggleFullscreen(): void {
+    const el = this.canvasRef.nativeElement as HTMLElement;
+
+    if (!document.fullscreenElement) {
+      el.requestFullscreen?.().catch(err => {
+        console.error('Error trying to enable fullscreen:', err);
+      });
+    } else {
+      document.exitFullscreen?.().catch(err => {
+        console.error('Error trying to exit fullscreen:', err);
+      });
+    }
+  }
+
+  async downloadXml(): Promise<void> {
+    try {
+      if (!this.bpmnModeler) {
+        console.warn('Viewer not initialized');
+        return;
+      }
+      const result = await this.bpmnModeler.saveXML({ format: true });
+      const xml: string = result?.xml ?? '';
+
+      if (!xml.trim()) {
+        console.warn('No XML content available to download.');
+        return;
+      }
+
+      const blob = new Blob([xml], { type: 'application/xml' });
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'bpmn-runner-diagram.bpmn';
+      a.click();
+
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Error exporting BPMN XML:', err);
+    }
+  }
+
 }

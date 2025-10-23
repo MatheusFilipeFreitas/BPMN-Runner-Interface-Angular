@@ -1,15 +1,20 @@
 import { ChangeDetectionStrategy, Component, inject, ViewChild } from "@angular/core";
 import CodeComponent from "../../components/code/code";
 import ViewerComponent from "../../components/viewer/viewer";
+import { IconComponent } from "../../components/icon/icon";
+import { ScriptService } from "../../services/script.service";
+import { XmlService } from "../../services/xml.service";
 
 @Component({
   selector: "app-playground",
-  imports: [CodeComponent, ViewerComponent],
+  imports: [CodeComponent, ViewerComponent, IconComponent],
   templateUrl: "./playground.html",
   styleUrls: ["./playground.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class PlaygroundComponent {
+  private scriptService = inject(ScriptService);
+  
   @ViewChild(CodeComponent) editorComponent:
   | CodeComponent
   | undefined;
@@ -47,6 +52,10 @@ pool(p1, "Pool test") {
   }
 
   handleEditorChange(value: string) {
-    // send to online interpreter
+    this.content = value;
+  } 
+
+  processScript(): void {
+    this.scriptService.processScript(this.content);
   }
 }

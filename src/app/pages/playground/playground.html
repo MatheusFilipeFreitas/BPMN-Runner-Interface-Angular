@@ -5,9 +5,17 @@
         (contentChange)="handleEditorChange($event)"
     ></app-code-editor>
     <div class="code-result">
+        <div class="viewer-bottom">
+            <button 
+                (click)="processScript()" 
+                class="docs-primary-btn"
+                aria-label="Process script"
+            >
+                <app-icon class="app-icon_high-contrast">play_arrow</app-icon>
+            </button>
+        </div>
         <div class="viewer">
             <app-viewer></app-viewer>
         </div>
-        <div class="xml-viewer"></div>
     </div>
 </div>

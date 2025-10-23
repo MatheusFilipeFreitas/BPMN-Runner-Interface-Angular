@@ -1,0 +1,56 @@
+@import "bpmn-js/dist/assets/diagram-js.css";
+@import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
+@import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
+
+.bpmn-container {
+  width: 100%;
+  height: 680px;
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  overflow: hidden;
+  cursor: grab;
+  color: #000;
+}
+
+.bpmn-container * {
+  stroke: none;
+  fill: none;
+  color: inherit;
+}
+
+.bpmn-container svg {
+  color: initial;
+}
+
+.djs-outline {
+  fill: none;
+  stroke-width: 1px;
+  stroke: #ff0000;
+  display: none;
+}
+
+.djs-element.hover .djs-outline {
+  display: block;
+}
+
+.fullscreen-button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  color: var(--primary-contrast);
+  margin-top: -40px;
+  padding-bottom: 15px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.viewer-toolbar {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 5px;
+}

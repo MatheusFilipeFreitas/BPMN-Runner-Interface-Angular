@@ -292,3 +292,26 @@ body {
     @include root-definitions();
   }
 }
+
+:root {
+  --bpmn-connection-color: #222;
+  --bpmn-outline-color: #f00;
+}
+
+/* Garante que as conexões fiquem com o estilo padrão */
+.djs-connection path {
+  stroke: var(--bpmn-connection-color) !important;
+  stroke-width: 2px !important;
+}
+
+/* Corrige “pontos pretos” de hitbox e seleção */
+.djs-hit,
+.djs-outline {
+  fill: none !important;
+  stroke: none !important;
+}
+
+/* Corrige o círculo preto no hover */
+.djs-connection .djs-visual path {
+  fill: none !important;
+}
