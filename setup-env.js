@@ -14,6 +14,7 @@ const env = {
     appId: process.env.FIREBASE_APP_ID,
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
   },
+  dev_api_key: null
 };
 
 const envFileContent = `export const environment = ${JSON.stringify(env, null, 2)};\n`;
