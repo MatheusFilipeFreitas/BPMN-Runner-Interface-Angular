@@ -3,6 +3,7 @@ import { computed, effect, inject, Injectable, Injector, signal } from "@angular
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Auth, GoogleAuthProvider, signInWithPopup, signOut, user } from "@angular/fire/auth";
 import { firstValueFrom } from "rxjs";
+import { environment } from "../../environments/environments";
 
 @Injectable({
     providedIn: 'root'
@@ -42,9 +43,14 @@ export class LoginService {
                 return Promise.reject(new Error("Could not retrieve ID token"));
             }
 
-            return new HttpHeaders({
+            let resultHeaders = new HttpHeaders({
                 'Authorization': `Bearer ${token}`
             });
+
+            if (!environment.production) {
+                resultHeaders = resultHeaders.append('X-Api-Key', environment.dev_api_key ?? "");
+            }
+            return resultHeaders;
 
         } catch (error) {
             console.error("Error getting ID token:", error);
