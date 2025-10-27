@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const env = {
-  production: process.env.NODE_ENV === 'production',
+  production: true,
   API_PATH: process.env.API_PATH,
   firebase: {
     apiKey: process.env.FIREBASE_API_KEY,
