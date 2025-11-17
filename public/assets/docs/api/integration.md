@@ -1,5 +1,3 @@
-# ⚙️ BPMN Runner API – Integration Guide
-
 Integrate your front-end or back-end application with the **BPMN Runner API** through the main endpoint:
 
 ```

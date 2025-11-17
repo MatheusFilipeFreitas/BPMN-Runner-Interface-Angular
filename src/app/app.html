@@ -1,4 +1,7 @@
-  <app-nav class="app-nav" />
-  <div class="docs-app-main-content">
-    <router-outlet />
-  </div>
+@if (loadingService.isLoading()) {
+  <app-loading></app-loading>
+}
+<app-nav class="app-nav" />
+<div class="docs-app-main-content">
+  <router-outlet />
+</div>

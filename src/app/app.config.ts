@@ -11,6 +11,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
+import { MessageService } from 'primeng/api';
 
 type ErrorProvider = {
   provide: typeof ErrorHandler;
@@ -71,6 +72,10 @@ export const httpClientProviders: (EnvironmentProviders)[] = [
   provideHttpClient()
 ];
 
+export const primeNgProviders: Provider[] = [
+  MessageService
+];
+
 export const appConfig: ApplicationConfig = {
   providers: [
     routerProviders,
@@ -79,5 +84,6 @@ export const appConfig: ApplicationConfig = {
     ...httpClientProviders,
     ...firestoreProviders,
     ...primengProviders,
+    ...primeNgProviders
   ]
 };

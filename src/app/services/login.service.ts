@@ -4,6 +4,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { Auth, GoogleAuthProvider, signInWithPopup, signOut, user } from "@angular/fire/auth";
 import { firstValueFrom } from "rxjs";
 import { environment } from "../../environments/environments";
+import { LoadingService } from "./loading.service";
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,6 @@ export class LoginService {
     private auth: Auth = inject(Auth);
     private injector = inject(Injector);
     private user$ = user(this.auth);
-
     private user = toSignal(this.user$, { initialValue: null });
     readonly isLoggedIn = computed(() => this.user() != null );
 

@@ -6,6 +6,7 @@ import { registerProcessLang } from "../../config/lang/bpmn-runner";
 import { Theme, ThemeService } from "../../services/theme.service";
 import { ConfirmationService } from "primeng/api";
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { LoadingService } from "../../services/loading.service";
 
 declare const monaco: any;
 
@@ -20,6 +21,7 @@ declare const monaco: any;
 export default class CodeComponent implements OnDestroy {
   @ViewChild('editorContainer') editorContentRef!: ElementRef;
 
+  @Input() hasEdited: boolean = false;
   @Input() options: any;
   @Input() content: string = '';
   @Input() @HostBinding('style.height') height: string = '100%';
@@ -29,9 +31,9 @@ export default class CodeComponent implements OnDestroy {
     new EventEmitter<any>();
 
   private themeService = inject(ThemeService);
+  private loadingService = inject(LoadingService);
   private destroyRef$: Subject<void> = new Subject<void>();
   private editor: any = undefined;
-  private originalValue: string = '';
 
   private disposables: any[] = [];
 
@@ -55,12 +57,14 @@ export default class CodeComponent implements OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.loadingService.isLoading.set(true);
     this.codeService
       .getScriptLoadSubject()
       .pipe(takeUntil(this.destroyRef$))
       .subscribe((isLoaded) => {
         if (isLoaded) {
           this.initMonaco();
+          this.loadingService.isLoading.set(false);
         }
       });
 
@@ -75,8 +79,7 @@ export default class CodeComponent implements OnDestroy {
 
   private hasUnsavedChanges(): boolean {
     if (!this.editor) return false;
-    const currentValue = this.editor.getValue();
-    return currentValue.trim() !== this.originalValue.trim();
+    return this.hasEdited;
   }
 
   private resolveThemeMode(mode: Theme | null = 'light'): 'light' | 'dark' {
@@ -91,7 +94,6 @@ export default class CodeComponent implements OnDestroy {
 
   private initMonaco(): void {
     const options = this.options;
-    const language = this.options['language'];
     const editorWrapper: HTMLDivElement = this.editorContentRef.nativeElement;
 
     const monaco = (window as any).monaco;
@@ -139,7 +141,6 @@ export default class CodeComponent implements OnDestroy {
       this.disposables.push(
         model.onDidChangeContent(() => {
           const value = model.getValue();
-          this.originalValue = value;
           this.contentChange.emit(value);
         })
       );

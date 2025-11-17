@@ -5,10 +5,11 @@ import { HttpClient } from "@angular/common/http";
 import { marked } from 'marked';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { take } from "rxjs";
+import DocHeaderComponent from "./components/header/doc-header";
 
 @Component({
   selector: "app-doc",
-  imports: [DocNavigatorComponent],
+  imports: [DocNavigatorComponent, DocHeaderComponent],
   templateUrl: "./doc.html",
   styleUrls: ["./doc.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
