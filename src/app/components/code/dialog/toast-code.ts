@@ -19,6 +19,7 @@ export default class ToastCodeComponent {
     constructor() {
         effect(() => {
             const errors = this.scriptService.errors();
+
             if (errors.length > 0) {
                 this.showErrorToast(errors);
             } else {

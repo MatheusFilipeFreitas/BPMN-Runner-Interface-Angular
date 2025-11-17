@@ -25,7 +25,6 @@ export class ApiKeyService {
                 take(1)
             );
             const result = await lastValueFrom(request$);
-            console.log("API Key created successfully:", result);
         } catch (error) {
             console.error("Error while trying to add api key:", error);
         }
