@@ -45,7 +45,8 @@ pool(p1, "Pool test") {
     effect(() => {
       const isLoggedIn = this.loginService.isLoggedIn();
       const errors = this.scriptService.errors();
-      if (isLoggedIn && errors.length > 0) {
+      const loggedError = errors.find(error => error.startsWith('Login'));
+      if (isLoggedIn && errors.length > 0 && loggedError) {
         this.scriptService.clearAllErrors();
       }
     })
