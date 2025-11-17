@@ -1,9 +1,9 @@
 <app-doc-navigator (selectItemEmit)="selectItem($event)" class="secondary-nav"/>
 <div class="doc-main-content">
   @if (docHtml(); as html) {
-    <div class="title">
-      <h3>{{ getTitle }}</h3>
-    </div>
+    <app-doc-header
+      [title]="getTitle"
+    />
     <div class="markdown-body" [innerHTML]="html"></div>
   } @else {
     <p>Loading documentation...</p>

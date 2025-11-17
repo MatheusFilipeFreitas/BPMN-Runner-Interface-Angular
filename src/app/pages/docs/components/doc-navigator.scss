@@ -34,6 +34,10 @@ li {
   text-align: -webkit-match-parent;
 }
 
+.nav-item-header {
+  color: var(--primary-contrast);
+}
+
 .nav-list, .nav-child-list {
   margin-inline-start: 1rem;
   list-style: none;

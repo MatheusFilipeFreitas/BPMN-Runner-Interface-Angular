@@ -6,6 +6,15 @@
   font-display: swap;
 }
 
+::ng-deep {
+  .p-dialog-content {
+    min-height: 572px;
+  }
+  .p-dialog-header, .p-dialog {
+    min-width: 851px !important;
+  }
+}
+
 :host {
   display: flex;
   flex-direction: row;
@@ -120,6 +129,7 @@ a {
 .no-content {
   font-size: 15px;
   margin-top: 15px;
+  height: 65%;
 }
 
 
@@ -224,10 +234,8 @@ app-icon {
   align-items: center;
   gap: 15px;
   margin-right: 10% !important;
-  position: fixed;
   margin-bottom: 30px !important;
   min-width: 55%;
-  bottom: 0;
   input {
     min-width: 80%;
     padding: 10px;
@@ -266,4 +274,54 @@ app-icon {
   content: 'check';
   color: #00b341;
   opacity: 1;
+}
+
+.origin-input-container {
+  position: fixed;
+  bottom: 0;
+  height: 150px;
+  width: 60%;
+}
+
+.origins-list {
+  list-style: none;
+  text-align: start;
+  padding: 0;
+  font-family: "Inter Tight" !important;
+  src: url("/assets/fonts/InterTight-VariableFont_wght.woff2") format("woff2") !important;
+  font-weight: 500 !important;
+  font-style: normal;
+  font-display: swap;
+  overflow: auto;
+}
+
+.icon-button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  color: var(--primary-contrast);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.custom-toast {
+    .p-toast {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+}
+
+
+.action-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
 }

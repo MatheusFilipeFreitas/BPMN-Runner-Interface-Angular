@@ -164,55 +164,55 @@ export function registerProcessLang(monaco: any, mode: Theme | null = 'light') {
             kind: monaco.languages.CompletionItemKind.Keyword,
             insertText: 'pool(${1:id}, "${2:label}") {\n\t$0\n}',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: 'Defines a new pool (main process container).',
+            documentation: 'Defines a new POOL (main process container).',
         },
         {
             label: 'process',
             kind: monaco.languages.CompletionItemKind.Keyword,
             insertText: 'process(${1:id}, "${2:label}") {\n\t$0\n}',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: 'Defines a BPMN process inside the pool.',
+            documentation: 'Defines a BPMN PROCESS inside the pool.',
         },
         {
             label: 'task',
             kind: monaco.languages.CompletionItemKind.Keyword,
             insertText: 'task(${1:id}, "${2:label}", ${3:MANUAL});',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: 'Defines a task (MANUAL, USER, or AUTOMATED).',
+            documentation: 'Defines a TASK (MANUAL, USER, or AUTOMATED).',
         },
         {
             label: 'gateway',
             kind: monaco.languages.CompletionItemKind.Keyword,
             insertText: 'gateway(${1:id}, "${2:label}", ${3:PARALLEL}) {\n\t$0\n};',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: 'Creates a gateway (EXCLUSIVE or PARALLEL).',
+            documentation: 'Creates a GATEWAY (EXCLUSIVE or PARALLEL).',
         },
         {
             label: 'start',
             kind: monaco.languages.CompletionItemKind.Keyword,
             insertText: 'start(${1:id});',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: 'Defines the start event of the process.',
+            documentation: 'Defines the START EVENT of the process.',
         },
         {
             label: 'end',
             kind: monaco.languages.CompletionItemKind.Keyword,
             insertText: 'end(${1:id});',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: 'Defines the end event of the process.',
+            documentation: 'Defines the END EVENT of the process.',
         },
         {
             label: 'message',
             kind: monaco.languages.CompletionItemKind.Keyword,
-            insertText: '-> message(${1:id});',
+            insertText: '-> message(${1:id})',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            documentation: 'Defines a message reference element.',
+            documentation: 'Defines a MESSAGE reference element.',
         },
         {
             label: 'exclusiveGateway',
             kind: monaco.languages.CompletionItemKind.Snippet,
             insertText:
-            'gateway(${1:id}, "${2:label}", EXCLUSIVE) {\n  yes -> {\n    $0\n  }\n  no -> {\n  }\n};',
+            'gateway(${1:id}, "${2:label}", EXCLUSIVE) {\n  yes -> {\n    $0\n  }\n  no -> {\n    $0\n  }\n};',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
             documentation: 'Creates an EXCLUSIVE gateway with yes/no conditional branches.',
         },
@@ -247,7 +247,15 @@ export function registerProcessLang(monaco: any, mode: Theme | null = 'light') {
             'task(${1:id}, "${2:label}", USER);',
             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
             documentation: 'Creates a USER task.',
-        });
+        },
+      {
+          label: 'scope',
+          kind: monaco.languages.CompletionItemKind.Snippet,
+          insertText:
+          'scope -> {\n    $0\n}',
+          insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+          documentation: 'Creates a SCOPE element (use it inside a parallel gateway)'
+      });
         return { suggestions };
     }});
 }

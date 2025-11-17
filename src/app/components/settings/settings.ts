@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from "@angular/core";
+import { Component, inject, OnInit, signal, ViewChild } from "@angular/core";
 import { NavigationLayer } from "../../pages/docs/components/data/navigation-options";
 import { settingsLayers } from "../../pages/docs/components/data/settings-options";
 import { TableModule } from 'primeng/table';
@@ -7,22 +7,31 @@ import { ButtonModule } from "primeng/button";
 import { CommonModule } from "@angular/common";
 import { IconComponent } from "../icon/icon";
 import { FormsModule } from '@angular/forms';
-import { CdkDragPlaceholder } from "@angular/cdk/drag-drop";
+import { Popover } from 'primeng/popover';
+import { PopoverModule } from 'primeng/popover';
+import { TooltipModule } from 'primeng/tooltip';
 import { ApiKeyService } from "../../services/api-key.service";
 import { ChipModule } from 'primeng/chip';
+import { LoadingService } from "../../services/loading.service";
+import LoadComponent from "../load/load";
+import { MessageService } from "primeng/api";
+import { Toast } from "primeng/toast";
 
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.html',
     styleUrls: ['./settings.scss'],
-    imports: [TableModule, PickListModule, ButtonModule, ChipModule, CommonModule, FormsModule, IconComponent],
-    providers: [TableModule, PickListModule, ButtonModule, ChipModule]
+    imports: [TableModule, PickListModule, ButtonModule, ChipModule, CommonModule, FormsModule, PopoverModule, TooltipModule, IconComponent, LoadComponent, Toast],
+    providers: [TableModule, PickListModule, ButtonModule, ChipModule, MessageService]
 })
 export default class SettingsModalComponent implements OnInit {
     private apiKeyService = inject(ApiKeyService);
+    loadingService = inject(LoadingService);
+    private messageService = inject(MessageService);
+    @ViewChild('op') op!: Popover;
 
     selectedItem = signal<NavigationLayer>(settingsLayers[0].childs![0]);
-    keys = signal([]);
+    keys = signal<any[]>([]);
     allOrigins: string[] = [];
     newOrigins: string[] = [];
     manualOrigin: string | null = null;
@@ -65,12 +74,17 @@ export default class SettingsModalComponent implements OnInit {
         const trimmed = this.manualOrigin.trim();
         if (!trimmed) return;
 
+        const normalized = /^https?:\/\//i.test(trimmed)
+            ? trimmed
+            : `http://${trimmed}`;
+
         if (this.allOrigins.length >= 5) {
+            this.manualOrigin = '';
             return;
         }
 
-        if (!this.allOrigins.includes(trimmed)) {
-            this.allOrigins.push(trimmed);
+        if (!this.allOrigins.includes(normalized)) {
+            this.allOrigins.push(normalized);
         }
 
         this.manualOrigin = '';
@@ -95,12 +109,39 @@ export default class SettingsModalComponent implements OnInit {
 
     copyToClipboard(text: string): void {
         navigator.clipboard.writeText(text).then(() => {
-            alert('Copied api key with sucess!');
-            //TODO: add toaster
+            this.showSuccessToast();
             this.showCopied = true;
             setTimeout(() => this.showCopied = false, 1500);
         }).catch(err => {
             console.error('Failed to copy:', err);
         });
+    }
+
+    showSuccessToast(): void {
+        this.messageService.add({
+            sticky: false,
+            life: 2000,
+            summary: 'Key copied!',
+            severity: 'success'
+        });
+    }
+
+    showPopover(event: any): void {
+        this.op.toggle(event);
+    }
+
+    deleteKey(keyId: string): void {
+        this.apiKeyService.deleteKey(keyId);
+        this.keys.update((keys) => keys.filter((key: any) => key.keyId !== keyId));
+    }
+
+    renewKey(keyId: string): void {
+    this.apiKeyService.renewKey(keyId).then((updatedKey) => {
+        if (!updatedKey) return;
+
+        this.keys.update((keys) =>
+        keys.map((k) => (k.keyId === keyId ? updatedKey : k))
+        );
+    });
     }
 }

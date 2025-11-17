@@ -1,4 +1,4 @@
-import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import { inject, Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { AsyncSubject } from 'rxjs';
 
 export const APP_MONACO_BASE_HREF = new InjectionToken<string>(

@@ -2,6 +2,7 @@
     <app-code-editor
         [options]="options"
         [content]="content"
+        [hasEdited]="hasEdited()"
         (contentChange)="handleEditorChange($event)"
     ></app-code-editor>
     <div class="code-result">
@@ -19,3 +20,4 @@
         </div>
     </div>
 </div>
+<app-toast-code />

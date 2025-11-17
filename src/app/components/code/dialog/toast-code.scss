@@ -1,0 +1,44 @@
+.toast-container {
+    padding: 10px;
+}
+
+.toast-content {
+  font-family: "Inter Tight";
+  src: url("/assets/fonts/InterTight-VariableFont_wght.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+.custom-toast {
+    .p-toast {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+}
+
+.custom-toast-content {
+    background: rgba(255, 80, 80, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-weight: 600;
+
+    ul {
+        padding-left: 0.75rem;
+        li::marker {
+            color: white;
+        }
+    }
+
+    i {
+        color: white;
+    }
+
+    span.toast-content {
+        color: white;
+        font-size: 1rem;
+    }
+}
