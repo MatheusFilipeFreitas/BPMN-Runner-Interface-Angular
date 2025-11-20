@@ -62,31 +62,7 @@ pool(p1, "Pool test") {
 
 ---
 
-## 4 · Renewing API Keys `/api/keys/renew`
-
-Renew an expired key:
-
-```http
-POST /api/keys/renew
-Content-Type: application/json
-X-Api-Key: <expired_key>
-Origin: <your_origin>
-```
-
-**Response**
-```json
-{
-  "keyId": "f58c1de1-5f3e-422a-8d02-16d0f8e444be",
-  "key": "b3f4e231-829a-4a97-bb83-ef5b12b2b098",
-  "createdAt": "2025-10-26T14:33:52Z",
-  "expiresAt": "2025-11-26T14:33:52Z",
-  "allowedOrigins": ["https://myapplication.com"]
-}
-```
-
----
-
-## 5 · CORS and Trusted Origins
+## 4 · CORS and Trusted Origins
 
 Dynamic CORS validation is applied.  
 Requests must include an `Origin` header matching one of the key’s `allowedOrigins`.
@@ -96,11 +72,11 @@ Requests must include an `Origin` header matching one of the key’s `allowedOri
 | Production | `https://bpmn-runner.dev` |
 | Development | `http://localhost:4200` |
 
-If the origin does not match, the server omits `Access-Control-Allow-Origin`, and browsers block the call.
+If the origin does not match, the server omits `Access-Control-Allow-Origin`, and browsers block the call. And you can register a allowed origin, when creating a api key.
 
 ---
 
-## 6 · Testing with Bruno or Postman
+## 5 · Testing with Bruno or Postman
 
 | Setting | Value |
 |----------|--------|
@@ -113,7 +89,7 @@ Expected response: `200 OK`, `Content-Type: application/xml`, BPMN XML body.
 
 ---
 
-## 7 · Health Check (no auth)
+## 6 · Health Check (no auth)
 
 ```
 GET /api/actuator/health
@@ -126,7 +102,7 @@ Response:
 
 ---
 
-## 8 · Common Issues
+## 7 · Common Issues
 
 | Problem | Cause | Fix |
 |----------|--------|-----|
@@ -138,12 +114,11 @@ Response:
 
 ---
 
-## 9 · Summary
+## 8 · Summary
 
 | Endpoint | Method | Description | Auth |
 |-----------|---------|-------------|------|
 | `/api/script/execute` | POST | Execute BPMN Runner script (plain text → XML) | ✅ API Key |
-| `/api/keys/renew` | POST | Renew expired key | ✅ API Key |
 | `/api/actuator/health` | GET | Health check | ❌ |
 
 ---
