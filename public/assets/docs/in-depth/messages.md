@@ -32,13 +32,13 @@ task(...) -> message(targetElementId);
 pool(customer, "Customer Application") {
   process(orderProc, "Place Order") {
     start(s1);
-    task(t1, "Submit Order", USER) -> message(procRecOrder);
+    task(t1, "Submit Order", USER) -> message(t2);
   }
 }
 
 pool(store, "Store System") {
   process(procRecOrder, "Receive Order") {
-    task(t2, "Validate Payment", AUTO);
+    task(t2, "Validate Payment", AUTOMATED);
     end(e1);
   }
 }
@@ -54,7 +54,7 @@ pool(store, "Store System") {
 
 ## Important Notes
 
-- The **ID** inside `message(targetElementId)` must match the **target process or element**.  
+- The **ID** inside `message(targetElementId)` must match the **target element**.  
 - Messages are typically used to represent **inter-process triggers** — for example, between departments or systems.  
 - Messages cannot be chained like sequence flows; they exist only between distinct pools.
 
@@ -72,7 +72,7 @@ pool(support, "Support Department") {
 
 pool(development, "Development Team") {
   process(fixTicket, "Fix Reported Bug") {
-    task(t2, "Fix Issue", AUTO);
+    task(t2, "Fix Issue", AUTOMATED);
     end(e1);
   }
 }
@@ -87,7 +87,7 @@ In this scenario:
 ## Tips
 
 - Use messages to connect tasks **across pools or processes**.  
-- The target ID in `message(targetElementId)` must already exist.  
+- The target ID in `message(targetElementId)` must already exist and must be a task or gateway.  
 - Messages act like **signals**, not sequences — they don’t pause the sender process.  
 - Ideal for modeling **inter-system** or **inter-departmental** communication.
 

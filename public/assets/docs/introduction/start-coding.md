@@ -3,18 +3,6 @@ This guide walks you through creating your first BPMN Runner process step-by-ste
 
 <br><br>
 
-## Setup
-
-You can use the **BPMN Runner Playground** (the in-app Monaco editor) or any text editor of your choice.  
-Each file should be saved with the extension `.bpmn-runner`.
-
-Example file name:
-```
-customer-order.bpmn-runner
-```
-
-<br><br>
-
 ## Your First Process
 
 Let’s create a simple customer order workflow.
@@ -50,20 +38,6 @@ pool(mainPool, "Order Management") {
 | `task(t1, "Receive Order", MANUAL)` | Manual action performed by a person |
 | `gateway(g1, ..., EXCLUSIVE)` | Decision point with yes/no branches |
 | `end(e1)` | Indicates process completion |
-
-<br><br>
-
-## Running the Model
-
-If you’ve integrated BPMN Runner with an interpreter (for example, using **Java + ANTLR**), you can execute the process directly in code.
-
-```java
-ProcessParser parser = new ProcessParser(tokens);
-ProcessModel model = parser.model();
-model.execute();
-```
-
-The interpreter reads your `.bpmn-runner` file, builds a process graph, and executes tasks according to their type and flow.
 
 <br><br>
 
@@ -107,3 +81,6 @@ Once you’re comfortable defining your first process, move on to the **In-Depth
 - Tasks (`task(...)`)
 - Gateways (`gateway(...)`)
 - Events (`start(...)` and `end(...)`)
+- Pools (`pool(...)`)
+- Process (`process(...)`)
+- Message Flow (`message(...)`)

@@ -27,7 +27,7 @@ Each request must include a valid **API Key** and a registered **Origin**.
 
 **URL**
 ```
-https://bpmn-runner-api.azurewebsites.net/api/script/execute
+https://api.bpmn-runner.app/api/script/execute
 ```
 
 ### Headers
@@ -73,11 +73,6 @@ X-Api-Key: <expired_key>
 Origin: <your_origin>
 ```
 
-**Body**
-```json
-{ "daysValid": 30 }
-```
-
 **Response**
 ```json
 {
@@ -98,7 +93,7 @@ Requests must include an `Origin` header matching one of the key’s `allowedOri
 
 | Environment | Allowed Origin |
 |--------------|----------------|
-| Production | `https://ambitious-island-060dfc40f.1.azurestaticapps.net` |
+| Production | `https://bpmn-runner.dev` |
 | Development | `http://localhost:4200` |
 
 If the origin does not match, the server omits `Access-Control-Allow-Origin`, and browsers block the call.
@@ -110,7 +105,7 @@ If the origin does not match, the server omits `Access-Control-Allow-Origin`, an
 | Setting | Value |
 |----------|--------|
 | Method | POST |
-| URL | `https://bpmn-runner-api.azurewebsites.net/api/script/execute` |
+| URL | `https://api.bpmn-runner.app/api/script/execute` |
 | Headers | `Content-Type: text/plain`, `X-Api-Key: <your_key>`, `Origin: https://myapplication.com` |
 | Body | Plain-text script |
 
@@ -154,4 +149,4 @@ Response:
 ---
 
 © 2025 BPMN Runner API – Matheus Filipe Freitas  
-_Last updated 2025-10-26_
+_Last updated 2025-11-20_

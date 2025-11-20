@@ -109,4 +109,4 @@ It’s ideal for:
 - Process documentation as code  
 - Rapid prototyping of business flows  
 
-> 💡 **Next step:** Explore the [Essentials](./essentials.md) to learn the grammar, tokens, and syntax of BPMN Runner.
+> 💡 **Next step:** Explore the Essentials to learn the grammar, tokens, and syntax of BPMN Runner.
