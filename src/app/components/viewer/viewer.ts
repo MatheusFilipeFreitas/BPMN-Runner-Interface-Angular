@@ -5,12 +5,13 @@ import Modeler from 'bpmn-js/lib/Modeler';
 import ZoomScrollModule from 'diagram-js/lib/navigation/zoomscroll';
 import MoveCanvasModule from 'diagram-js/lib/navigation/movecanvas';
 import { XmlService } from '../../services/xml.service';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { IconComponent } from '../icon/icon';
+import { LoadingService } from '../../services/loading.service';
+import LoadComponent from '../load/load';
 
 @Component({
   selector: 'app-viewer',
-  imports: [IconComponent],
+  imports: [IconComponent, LoadComponent],
   template: `
   <div class="viewer-toolbar">
     <button class="fullscreen-button" type="button" (click)="toggleFullscreen()">
@@ -20,7 +21,10 @@ import { IconComponent } from '../icon/icon';
       <app-icon class="app-icon_high-contrast">download</app-icon>
     </button>
   </div>
-  <div #canvas class="bpmn-container"></div>
+  @if (loadingService.isLoadingRequest()) {
+    <app-loading></app-loading>
+  } 
+    <div #canvas class="bpmn-container"></div>
   `,
   styleUrls: ['./viewer.scss']
 })
@@ -28,6 +32,7 @@ export default class ViewerComponent implements OnInit, OnDestroy {
   @ViewChild('canvas', { static: true }) private canvasRef!: ElementRef;
 
   private xmlService = inject(XmlService);
+  loadingService = inject(LoadingService);
   private bpmnModeler!: Modeler;
 
   constructor() {
