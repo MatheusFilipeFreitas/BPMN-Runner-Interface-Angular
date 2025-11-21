@@ -5,7 +5,7 @@
 
 ## 🌐 Demo
 
-Acesse a versão online do projeto: [Demo do Projeto](https://ambitious-island-060dfc40f.1.azurestaticapps.net/)
+Acesse a versão online do projeto: [Demo do Projeto](https://bpmn-runner.dev/)
 
 ## 📖 Descrição
 
@@ -47,16 +47,22 @@ npm -v
 
 ## ⚡ Instalação
 
-1. Clone o repositório:
+1. Clone o repositório (Gitlab):
 
 ```bash
-git clone https://github.com/seu-usuario/nome-do-projeto.git
+git clone https://gitlab.com/aluno-ufn/bpmn-runner-doc-page.git
+```
+
+1. Clone o repositório (Github):
+
+```bash
+git clone https://github.com/MatheusFilipeFreitas/BPMN-Runner-Interface-Angular.git
 ```
 
 2. Acesse a pasta do projeto:
 
 ```bash
-cd nome-do-projeto
+cd bpmn-runner-doc-page
 ```
 
 3. Instale as dependências:
@@ -66,6 +72,66 @@ npm install
 ```
 
 ---
+
+## Como pegar as credenciais do firebase
+
+Acesse o Firebase Console
+
+👉 https://console.firebase.google.com/
+
+Escolha seu projeto.
+
+✅ 2. Vá em “Configurações do Projeto”
+
+Menu esquerdo → ⚙️ Configurações do projeto
+
+✅ 3. Vá até a seção “Seus apps”
+
+Role a página até encontrar:
+
+Seus apps
+
+com os ícones:
+
+* Web (</>)
+
+* Android
+
+* iOS
+
+* Unity
+
+* Flutter
+
+Se você ainda não registrou o app Web:
+
+👉 clique no ícone Web (</>)
+
+✅ 4. Registre o app Web
+
+Coloque um nome, por exemplo:
+
+bpmn-runner-frontend
+
+
+Não precisa habilitar hosting (a não ser que vá usar).
+
+Clique em Registrar app.
+
+✅ 5. Copie as credenciais do Firebase Web
+
+Depois de registrar, o Firebase mostra um bloco assim:
+
+const firebaseConfig = {
+  apiKey: "AIzaSyXXXXXXX",
+  authDomain: "seu-projeto.firebaseapp.com",
+  projectId: "seu-projeto",
+  storageBucket: "seu-projeto.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef123456"
+};
+
+Copie o código e cole dentro do arquivo: `bpmn-runner-doc-page/src/environments/environments.ts`, na propriedade `firebase`.
 
 ## 🚀 Execução
 
@@ -104,21 +170,6 @@ nome-do-projeto/
 ├─ package.json
 └─ README.md
 ```
-
----
-
-## 📝 Funcionalidades
-
-* Funcionalidade 1: **\[descrição]**
-* Funcionalidade 2: **\[descrição]**
-* Funcionalidade 3: **\[descrição]**
-
----
-
-## 🔗 Referências
-
-* [Documentação Angular](https://angular.io/docs)
-* [Node.js](https://nodejs.org/)
 
 ---
 
